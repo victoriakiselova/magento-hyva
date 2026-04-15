@@ -1,0 +1,58 @@
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Logs
+*.log
+
+# Magento runtime
+/var/
+/generated/
+/pub/static/
+/pub/media/catalog/product/cache/
+/pub/media/tmp/
+/pub/media/import/
+/pub/media/export/
+/pub/media/wysiwyg/
+/pub/errors/
+/pub/static/frontend/*/*/*/
+/pub/static/adminhtml/*/*/*/
+
+# Cache / sessions
+/var/cache/
+/var/page_cache/
+/var/session/
+/var/view_preprocessed/
+
+# Dependencies
+/vendor/
+/node_modules/
+
+# Build
+/pub/static/_requirejs/
+/pub/static/_cache/
+
+# Env / secrets
+.env
+app/etc/env.php
+
+# Tests / tmp
+/dev/tests/integration/tmp/
+/dev/tests/functional/tmp/
+
+# Composer
+composer.phar
+
+# NPM
+package-lock.json
+yarn.lock
+
+# Hyva (если собираешь локально)
+/app/design/frontend/*/*/web/tailwind/node_modules/
+/app/design/frontend/*/*/web/tailwind/dist/
+
+# Misc
+*.swp
+*.swo

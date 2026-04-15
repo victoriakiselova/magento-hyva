@@ -1,0 +1,59 @@
+@import "@hyva-themes/hyva-modules/css";
+@import "tailwindcss" source(none);
+@source "../../**/*.phtml";
+@source "../../**/*.xml";
+@source "../../../../app/code/**/*.phtml";
+@source "../../../../app/code/**/*.xml";
+@source "../../../../app/code/**/*.js";
+
+@import "./base";
+@import "./components";
+@import "./theme";
+@import "./utilities";
+@import "./generated/hyva-source.css";
+@import "./generated/hyva-tokens.css";
+
+@theme {
+    --color-bg: var(--color-slate-50);
+    --color-fg: var(--color-slate-950);
+    --color-fg-secondary: var(--color-slate-600);
+    --color-surface: var(--color-white);
+
+    --breakpoint-mob: 320px;
+    --breakpoint-tablet: 600px;
+    --breakpoint-laptop: 64rem;
+    --breakpoint-desktop: 80rem;
+    --animate-fade-in-scale: fade-in-scale 0.3s ease-out;
+}
+
+@layer base {
+    :root,
+    :host {
+        --color-background: #c4b5fd;
+        --color-white: #ffffff;
+        --color-white-100: #ffffff;
+        --color-white-200: #f5edf7;
+        --color-blue: #1e293b;
+        --color-blue-100: #3730a3;
+        --color-blue-200: #191970;
+        --color-blue-300: #1f31ab;
+        --color-blue-400: #3348d4;
+        --color-blue-500: #4053cf;
+        --color-blue-600: #0f2299;
+        --color-blue-700: #588fe8;
+        --color-blue-800: #010142;
+        --color-blue-900: #000033;
+        --color-gray-100: #dcdcdc;
+        --color-gray-200: #8c95a3;
+        --color-gradient-100: #fee6ed;
+        --color-gradient-200: #ebc7f9;
+        --color-gradient-300: #a3c6f1;
+        --color-black: #000000;
+        --color-black-300: #636569;
+        --color-black-400: #37383b;
+        --color-black-500: #161617;
+        --color-red-100: #e3292c;
+        --color-pink-100: #af8bb5;
+        --color-pink-200: #9a64a3;
+    }
+}
