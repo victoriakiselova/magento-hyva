@@ -4,11 +4,8 @@
     <update handle="default_head_blocks"/>
     <body>
         <referenceContainer name="main.content">
-            <block class="Magento\Framework\View\Element\Template" name="iconList" before="-" template="Magento_Theme::html/icons.phtml">
-<!--                <arguments>-->
-<!--                    <argument name="target_id" xsi:type="string">contentarea</argument>-->
-<!--                </arguments>-->
-            </block>
+            <block class="Magento\Framework\View\Element\Template" name="iconList" before="-" template="Magento_Theme::html/icons.phtml"/>
+            <block class="Magento\Framework\View\Element\Template" name="youtube-video" before="-" template="Magento_Theme::youtube.phtml"/>
         </referenceContainer>
     </body>
 </page>

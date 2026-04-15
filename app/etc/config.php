@@ -384,6 +384,7 @@ return [
         'Hyva_OrderCancellationWebapi' => 1,
         'Hyva_BaseLayoutReset' => 1,
         'Jajuma_AwesomeHyva' => 1,
+        'MageQuest_LiteYouTube' => 1,
         'Mollie_Payment' => 1,
         'Mollie_HyvaCompatibility' => 1,
         'PayPal_Braintree' => 1,
