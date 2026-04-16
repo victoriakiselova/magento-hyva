@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd"
+>
+    <type name="Hyva\Theme\ViewModel\SvgIcons">
+        <arguments>
+            <argument name="pathPrefixMapping" xsi:type="array">
+                <item name="heroicons2" xsi:type="string">Hyva_Heroicons2::svg/heroicons2</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

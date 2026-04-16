@@ -1,0 +1,15 @@
+{
+    "name": "victoria-hyva/hyva",
+    "description": "Hyva Child Theme",
+    "type": "magento2-theme",
+    "require": {
+        "hyva-themes/magento2-default-theme": "*"
+    },
+    "version": "1.0.0",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://repo.hyva.io/"
+        }
+    ]
+}

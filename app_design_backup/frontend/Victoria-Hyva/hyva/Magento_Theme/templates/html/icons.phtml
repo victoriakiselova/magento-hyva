@@ -1,0 +1,40 @@
+<?php
+use Hyva\Theme\Model\ViewModelRegistry;
+/** @var ViewModelRegistry $viewModels */
+use Siteation\HyvaIconsPayment\ViewModel\PaymentIcons;
+/** @var PaymentIcons $paymentIcons */
+$paymentIcons = $viewModels->require(PaymentIcons::class);
+use Siteation\HyvaIconsPayment\ViewModel\PaymentIconsFlat;
+/** @var PaymentIconsFlat $paymentIconsFlat */
+$paymentIconsFlat = $viewModels->require(PaymentIconsFlat::class);
+
+?>
+<div class="flex items-center justify-center gap-1 mb-1">
+<?= $paymentIcons->idealHtml('p-1', 64, 48, ["aria-label" => "Pay with iDeal"]) ?>
+<?= $paymentIcons->maestroHtml('p-1', 64, 48, ["aria-label" => "Pay with maestro"]) ?>
+<?= $paymentIconsFlat->klarnaHtml('p-1', 64, 48, ["aria-label" => "Pay with klarna"]) ?>
+<?= $paymentIconsFlat->paypalHtml('p-1', 64, 48, ["aria-label" => "Pay with PayPal", "aria-hidden" => "true"]) ?>
+</div>
+
+<!--heroicons2-->
+<?php
+$heroicons2 = $viewModels->require(\Hyva\Heroicons2\ViewModel\Heroicons2Outline::class);
+$heroicons2Solid = $viewModels->require(\Hyva\Heroicons2\ViewModel\Heroicons2Solid::class);?>
+
+<div class="flex items-center justify-center gap-1 mb-2">
+<?= $heroicons2->userCircleHtml('h-6 w-6 text-slate-800 hover:text-black', 32, 32); ?>
+<?= $heroicons2Solid->shoppingCartHtml('h-6 w-6 text-slate-800 hover:text-black', 32, 32); ?>
+<?= $heroicons2Solid->shoppingCartHtml('w-6 h-6'); ?>
+<?= $heroicons2Solid->academicCapHtml('w-6 h-6') ;?>
+</div>
+
+<!--Awesome Hyvä-->
+<?php
+$awesomeicons6Solid = $viewModels->require(\Jajuma\AwesomeHyva\ViewModel\Awesomeicons6Solid::class);
+$awesomeicons6Regular = $viewModels->require(\Jajuma\AwesomeHyva\ViewModel\Awesomeicons6Regular::class);
+?>
+
+<div class="flex items-center justify-center gap-1 mb-2">
+<?= $awesomeicons6Solid->addressBookHtml('text-black', 24, 24, ['style'=>'position:relative']) ?>
+<?= $awesomeicons6Regular->addressBookHtml('text-black', 24, 24, ['style'=>'position:relative']) ?>
+</div>

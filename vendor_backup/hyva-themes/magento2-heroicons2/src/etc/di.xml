@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd"
+>
+    <type name="Hyva\Heroicons2\ViewModel\Heroicons2Solid">
+        <arguments>
+            <argument name="iconPathPrefix" xsi:type="string">Hyva_Heroicons2::svg/heroicons2/solid</argument>
+        </arguments>
+    </type>
+
+    <type name="Hyva\Heroicons2\ViewModel\Heroicons2Outline">
+        <arguments>
+            <argument name="iconPathPrefix" xsi:type="string">Hyva_Heroicons2::svg/heroicons2/outline</argument>
+        </arguments>
+    </type>
+</config>
