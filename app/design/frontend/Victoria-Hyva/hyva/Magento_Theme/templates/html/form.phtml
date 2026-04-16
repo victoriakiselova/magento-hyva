@@ -1,0 +1,45 @@
+<div class="w-full mb-3">
+    <form x-data="initMyForm($el)" x-init="init()" class="text-center">
+        <input type="text" name="post-form" class="js-post-input">
+    </form>
+</div>
+
+<script>
+    const scriptUrl = "<?= $escaper->escapeJs($block->getViewFileUrl('Magento_Theme::js/library.js')) ?>";
+
+    document.addEventListener('alpine:init', () => {
+        window.initMyForm = function (form) {
+            function load() {
+                return new Promise(resolve => {
+                    const script = document.createElement('script');
+                    script.src = scriptUrl;
+                    script.async = true;
+                    script.onload = resolve;
+                    document.head.appendChild(script);
+                });
+            }
+
+            return {
+                init() {
+                    const inputs = Array.from(form.elements);
+                    const initExternalScript = () => {
+                        inputs.forEach(input => {
+                            input.removeEventListener('focus', initExternalScript);
+                        });
+                        load().then(() => this.doSomethingWithTheLibrary());
+                    };
+
+                    inputs.forEach(input => {
+                        input.addEventListener('focus', initExternalScript, {once: true});
+                    });
+                },
+
+                doSomethingWithTheLibrary() {
+                    if (window.myFormAnimations) {
+                        window.myFormAnimations.init(form);
+                    }
+                }
+            }
+        }
+    });
+</script>
