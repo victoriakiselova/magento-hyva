@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<page layout="3columns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="default_head_blocks"/>
+    <head>
+        <script src="Aureatelabs_SliderSplide::js/splide.min.js"/>
+        <script src="Aureatelabs_SliderSplide::js/splide.js"/>
+        <css src="Aureatelabs_SliderSplide::css/splide.min.css"/>
+    </head>
+    <body>
+
+        <referenceContainer name="columns">
+            <block class="Magento\Framework\View\Element\Template" name="slide-lib" before="-"
+                   template="Aureatelabs_SliderSplide::splide.phtml">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">
+                        Aureatelabs\SliderSplide\Module\ViewModel\Slider\Slider
+                    </argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

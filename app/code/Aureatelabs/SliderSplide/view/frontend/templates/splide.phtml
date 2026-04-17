@@ -1,0 +1,27 @@
+<?php
+/** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Aureatelabs\SliderSplide\Module\ViewModel\Slider\Slider $viewModel */
+$viewModel = $block->getData('view_model');
+if (!$viewModel) {
+    return;
+}
+$products = $viewModel->getProducts();
+?>
+<section x-data x-init="initSplide($el)" class="splide" aria-label="Splide">
+    <div class="splide__track">
+        <ul class="splide__list">
+            <?php foreach ($products as $product): ?>
+                <li class="splide__slide text-center p-2">
+                    <a href="<?= $this->escapeUrl($product->getProductUrl()) ?>">
+                        <img src="<?= $this->escapeUrl($viewModel->getImageUrl($product)) ?>"
+                             alt="<?= $this->escapeHtmlAttr($product->getName()) ?>"
+                             width="400" height="400"
+                             loading="lazy"
+                             class="mx-auto" />
+                        <p class="mt-2 text-sm font-medium"><?= $this->escapeHtml($product->getName()) ?></p>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</section>
