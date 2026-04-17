@@ -20,5 +20,8 @@
   "devDependencies": {
     "heroicons": "^2.2.0",
     "svgo": "^4.0.1"
+  },
+  "dependencies": {
+    "@splidejs/splide": "^4.1.4"
   }
 }

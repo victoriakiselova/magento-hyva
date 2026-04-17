@@ -10,7 +10,7 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
 
     <!-- Make wishlist JS available -->
-    <update handle="catalog_list_item"/>
+    <update handle="catalog_product_view.xml"/>
 
     <body>
         <referenceBlock name="page.main.title">

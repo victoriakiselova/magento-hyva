@@ -1,7 +1,0 @@
-<referenceContainer name="before.body.end">
-    <block template="Magento_Theme::html/script.phtml">
-        <arguments>
-            <argument name="src" xsi:type="string">js/swatches-data.js</argument>
-        </arguments>
-    </block>
-</referenceContainer>

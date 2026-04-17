@@ -12,6 +12,8 @@
 @import "./utilities";
 @import "./generated/hyva-source.css";
 @import "./generated/hyva-tokens.css";
+@import "@splidejs/splide/css/skyblue";
+
 
 @theme {
     --color-bg: var(--color-slate-50);

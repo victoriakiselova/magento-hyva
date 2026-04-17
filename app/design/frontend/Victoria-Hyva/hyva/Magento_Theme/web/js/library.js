@@ -1,5 +1,4 @@
 (function () {
-
     window.myFormAnimations = {
         init(form) {
             const inputs = form.querySelectorAll('.js-post-input');

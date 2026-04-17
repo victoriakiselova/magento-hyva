@@ -5,6 +5,7 @@
   "type": "module",
   "dependencies": {
     "@hyva-themes/hyva-modules": "^1.3.0",
+    "@splidejs/splide": "^4.1.4",
     "@tailwindcss/cli": "^4.1.17",
     "tailwindcss": "^4.1.17"
   },
