@@ -6,12 +6,18 @@
 
     <body>
         <referenceContainer name="main.content">
-            <block class="Magento\Framework\View\Element\Template" name="iconList" before="-"
-                   template="Magento_Theme::html/icons.phtml"/>
-            <block class="Magento\Framework\View\Element\Template" name="youtube-video" before="-"
-                   template="Magento_Theme::youtube.phtml"/>
             <block class="Magento\Framework\View\Element\Template" name="post-form" before="-"
                    template="Magento_Theme::html/form.phtml"/>
+            <block class="Magento\Framework\View\Element\Template" name="youtube-video" after="post-form"
+                   template="Magento_Theme::youtube.phtml"/>
+            <block class="Magento\Framework\View\Element\Template" name="iconList" after="youtube-video"
+                   template="Magento_Theme::html/icons.phtml"/>
+            <block class="Magento\Framework\View\Element\Template" name="attributes" after="iconList"
+                   template="Magento_Theme::html/attributes.phtml"/>
+            <block class="Magento\Framework\View\Element\Template" name="use-el" after="attributes"
+                   template="Magento_Theme::html/use-of-el.phtml"/>
+            <block class="Magento\Framework\View\Element\Template" name="dropdown" after="use-el"
+                   template="Magento_Theme::html/dropdown.phtml"/>
         </referenceContainer>
     </body>
 </page>

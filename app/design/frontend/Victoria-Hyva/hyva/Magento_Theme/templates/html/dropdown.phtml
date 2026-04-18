@@ -1,0 +1,22 @@
+<div x-data="initComponent()" class="flex justify-center">
+    <div>
+        <button @click="toggleDropdown" class="bg-gray-200 p-2 border mb-3">Toggle dropdown</button>
+        <div x-show="open" @click.away="closeDropdown" @click.outside="closeDropdown">
+            Dropdown content
+        </div>
+    </div>
+</div>
+
+<script>
+    function initComponent() {
+        return {
+            open: false,
+            toggleDropdown() {
+                this.open = !this.open;
+            },
+            closeDropdown() {
+                this.open = false;
+            }
+        };
+    }
+</script>

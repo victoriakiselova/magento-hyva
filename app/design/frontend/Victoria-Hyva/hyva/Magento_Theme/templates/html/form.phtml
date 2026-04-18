@@ -1,3 +1,13 @@
+<?php
+
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\Escaper;
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+?>
+
+
 <div class="w-full mb-3">
     <form x-data="initMyForm($el)" x-init="init()" class="text-center">
         <input type="text" name="post-form" class="js-post-input">

@@ -1,0 +1,15 @@
+<div class="flex justify-center mb-3">
+    <div x-data="{ isOpen: false }" class="mr-3">
+        <button x-on:click="isOpen = !isOpen">Toggle1</button>
+        <div x-show="isOpen" x-ref="myDiv"><p class="w-5 h-3 bg-blue-500"></p>
+        </div>
+    </div>
+
+    <div x-data="{ isOpen: false }">
+        <button x-on:click="isOpen = !isOpen">Toggle2</button>
+        <div x-show="isOpen" x-ref="myDiv" x-init="$el.classList.add('initialized')"><p
+                class="w-5 h-3 bg-green-500"></p>
+        </div>
+    </div>
+</div>
+
