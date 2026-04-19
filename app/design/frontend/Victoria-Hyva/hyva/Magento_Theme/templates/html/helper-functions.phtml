@@ -1,0 +1,78 @@
+<div x-data="initComponent()" class="flex justify-center">
+    <input type="hidden" name="form_key" :value="hyva.getFormKey()"/>
+
+    <div id="test-box">
+        <p>old text</p>
+    </div>
+
+    <button id="update-ui" type="button" class="ml-2 bg-gray-200 p-2 border rounded-sm mb-3">Update UI</button>
+</div>
+
+<!--Надсилання даних із форми за посиланням-->
+<button id="btn" class="block mx-auto text-blue-500 underline hover:text-blue-300 mb-3">
+    Request a Quote
+</button>
+
+<script>
+    // hyva.getCookie(name)
+    // hyva.setSessionCookie(имя, значение,skipSetDomain)
+    // hyva.setCookie(имя, значение, дни,skipSetDomain)
+    //  читання і запис кукі
+    let cookieName = 'theme';
+    let cookieValue = 'dark';
+    let cookieExpireDays = 7;
+    hyva.setCookie(cookieName, cookieValue, cookieExpireDays);
+    hyva.getCookie(cookieName);
+    console.log(hyva.getCookie(cookieName))
+
+    // hyva.formatPrice(value, showSign)
+    // форматує та повертає задане значення
+    let price = 20;
+    let priceWithCurrency = hyva.formatPrice(price);
+    console.log(priceWithCurrency);
+
+
+    // hyva.str(string, …args)
+    // hyva.strf(string, …args)
+    // замінює позиційні параметри
+    const strExample = hyva.str('У кошику %1 товарів', 3);
+    const strfExample = hyva.strf('%1 6 %0', 'товарів', 'У кошику');
+    console.log("strExample:", strExample, "strfExample:", strfExample)
+
+    // hyva.replaceDomElement(targetSelector, content)
+    // заміна частини сторінки на аналогічний фрагмент, корисно використовувати як HTML-відповідь на Ajax-запит
+    document.getElementById('update-ui').addEventListener('click', () => {
+        const newHtml = `
+        <div id="test-box">
+            <p style="color:green">NEW TEXT FROM HYVA</p>
+        </div>
+    `;
+
+        hyva.replaceDomElement('#test-box', newHtml);
+    });
+
+    // перенаправляти відвідувача назад на попередню сторінку
+    //     "body": "form_key=" + hyva.getFormKey() + "&uenc=" + hyva.getUenc();
+
+    // Метод alpineInitialized приймає як аргумент функцію зворотного виклику, яка виконується після завантаження та ініціалізації Alpine.js
+    hyva.alpineInitialized(() => {
+        const elementTextBox = document.querySelector('#test-box');
+        console.log('Element знайдено:', elementTextBox);
+    });
+
+    //  надсилає POST-запит без форми у HTML
+    document.getElementById('btn').addEventListener('click', () => {
+        hyva.postForm({
+            action: 'custom_quote/move/inQuote/',
+            data: {id: 3}
+        })
+    })
+
+    // повертає місце для зберігання даних у браузері
+    const browserStorage = hyva.getBrowserStorage();
+    if (browserStorage) {
+        const cacheTimeout = browserStorage.getItem('theme');
+        browserStorage.removeItem('theme');
+        browserStorage.setItem('theme', '3600');
+    }
+</script>
