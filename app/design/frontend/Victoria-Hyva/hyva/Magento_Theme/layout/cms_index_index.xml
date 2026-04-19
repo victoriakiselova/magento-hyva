@@ -18,6 +18,8 @@
                    template="Magento_Theme::html/use-of-el.phtml"/>
             <block class="Magento\Framework\View\Element\Template" name="dropdown" after="use-el"
                    template="Magento_Theme::html/dropdown.phtml"/>
+            <block class="Magento\Framework\View\Element\Template" name="helper-functions" after="dropdown"
+                   template="Magento_Theme::html/helper-functions.phtml"/>
         </referenceContainer>
     </body>
 </page>
