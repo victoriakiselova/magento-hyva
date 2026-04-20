@@ -970,6 +970,9 @@
   .min-h-80 {
     min-height: calc(var(--spacing) * 80);
   }
+  .min-h-\[2\.5rem\] {
+    min-height: 2.5rem;
+  }
   .min-h-\[20px\] {
     min-height: 20px;
   }
