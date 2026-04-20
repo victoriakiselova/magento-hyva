@@ -1,0 +1,36 @@
+<!--Об'яіва нової області видимости компонента Alpine -->
+<div x-data="{ open: false }" class="flex flex-col items-center p-3">
+    <!--Видалення елемента-->
+    <button @click="$refs.text.remove()">Remove Text</button>
+    <span x-ref="text">Hello</span>
+
+
+    <!--Відображення текстовх даних-->
+    <div x-data="{ username: 'calebporzio' }">
+        Username: <strong x-text="username"></strong>
+    </div>
+
+    <!--Створення элементів DOM шляхом ітерації по списку массивов или объектов.-->
+    <ul x-data="{ car: { make: 'Jeep', model: 'Grand Cherokee', color: 'Black' } }">
+        <template x-for="(value, index) in car">
+            <li>
+                <span x-text="index"></span>: <span x-text="value"></span>
+            </li>
+        </template>
+    </ul>
+
+    <!--Відображення/приховування DOM-элементів-->
+    <div x-data="{ open: false }">
+        <button x-on:click="open = ! open">Toggle</button>
+        <div x-show="open">
+            Dropdown Contents...
+        </div>
+    </div>
+
+    <!--Приховування компонента у DOM дереві-->
+    <div x-data="{ label: 'From Alpine' }">
+        <div x-ignore>
+            <span x-text="label"></span>
+        </div>
+    </div>
+</div>
