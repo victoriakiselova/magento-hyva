@@ -4,39 +4,42 @@
 
 .page-main {
     flex-grow: 1;
-    margin-block: --spacing(8);
 }
 
 .columns {
     display: grid;
-    grid-template-columns: minmax(0px, 1fr);
+    grid-template-columns: minmax( 0px, 1fr);
     gap: --spacing(4) --spacing(8);
 }
 
 @variant md {
-    :is([class*="page-layout-2columns-"], .page-layout-3columns) {
+    :is( .page-layout-3columns,[class*="page-layout-2columns-"]) {
         --sidebar-width: 240px;
         --main-width: minmax(0px, 1fr);
-        --page-layout: var(--sidebar-width) var(--main-width);
+        --page-layout: 1fr;
 
         .columns {
             grid-template-columns: var(--page-layout);
-            grid-template-rows: auto 1fr;
+            grid-template-rows:  1fr auto;
 
             & > .column.main {
                 grid-row: span 2;
             }
+
+            .sidebar.sidebar-main {
+                margin-left: 0 !important;
+            }
         }
     }
 
-    .page-layout-2columns-left {
+    .page-layout-2columns-right {
         .columns > .column.main {
             grid-column-start: 2;
         }
     }
 
-    .page-layout-2columns-right {
-        --page-layout: var(--main-width) var(--sidebar-width);
+    .page-layout-2columns-left {
+        --page-layout: 1fr 320px;
 
         .columns > .column.main {
             order: -1;
@@ -45,16 +48,16 @@
 }
 
 @variant lg {
-    [class*="page-layout-2columns-"],
-    .page-layout-3columns {
-        --sidebar-width: 320px;
+    .page-layout-3columns,
+    [class*="page-layout-2columns-"] {
+        --sidebar-width: 340px;
     }
 }
 
 @variant xl {
     .page-layout-3columns {
         --sidebar-width: 240px;
-        --page-layout: var(--sidebar-width) var(--main-width)
-            var(--sidebar-width);
+        --page-layout: 340px 1fr;
     }
 }
+
