@@ -1,0 +1,29 @@
+<?php
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\Customer;
+use Hyva\Theme\ViewModel\Store;
+
+/** @var ViewModelRegistry $viewModels */
+
+$store = $viewModels->require(Store::class);
+$customer = $viewModels->require(Customer::class);
+?>
+
+<div x-data="{ name: 'guest'}"
+     x-init="
+       const data = window.customerData?.customer;
+        if (data && data.firstname) {
+            name = data.firstname;
+        }
+           window.addEventListener('private-content-loaded', (e) => {
+        if (e.detail?.data?.customer?.firstname) {
+            name = e.detail?.data?.customer?.firstname;
+        }
+    })
+           " class="flex items-end justify-center gap-3 border-b border-gray-400 p-2">
+    <span
+        class="text-gray-950 text-xl after:ml-3 after:text-gray-400 after:content-['|']"><?= $store->getStore()->getName(); ?></span>
+    Username: <strong x-text="name"></strong>
+
+</div>
