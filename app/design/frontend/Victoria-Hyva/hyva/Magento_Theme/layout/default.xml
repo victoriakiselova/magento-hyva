@@ -1,6 +1,22 @@
 <?xml version="1.0"?>
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <update handle="splide_js_css"/>
     <head>
     </head>
+    <body>
+        <referenceContainer name="header.container">
+            <block name="prev-header"
+                   template="Magento_Theme::html/store-header.phtml" before="-">
+                <arguments>
+                    <argument name="view_model_store" xsi:type="object">
+                        Hyva\Theme\ViewModel\Store
+                    </argument>
+                    <argument name="view_model_customer" xsi:type="object">
+                        Hyva\Theme\ViewModel\Customer
+                    </argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
 </page>
