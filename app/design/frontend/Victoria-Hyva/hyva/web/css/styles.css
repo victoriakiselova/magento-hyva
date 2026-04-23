@@ -2195,18 +2195,6 @@
       background-color: var(--color-red-500);
     }
   }
-  .after\:ml-0\.5 {
-    &::after {
-      content: var(--tw-content);
-      margin-left: calc(var(--spacing) * 0.5);
-    }
-  }
-  .after\:ml-2 {
-    &::after {
-      content: var(--tw-content);
-      margin-left: calc(var(--spacing) * 2);
-    }
-  }
   .after\:ml-3 {
     &::after {
       content: var(--tw-content);
@@ -2217,24 +2205,6 @@
     &::after {
       content: var(--tw-content);
       color: var(--color-gray-400);
-    }
-  }
-  .after\:text-gray-500 {
-    &::after {
-      content: var(--tw-content);
-      color: var(--color-gray-500);
-    }
-  }
-  .after\:text-red-500 {
-    &::after {
-      content: var(--tw-content);
-      color: var(--color-red-500);
-    }
-  }
-  .after\:content-\[\'\*\'\] {
-    &::after {
-      --tw-content: '*';
-      content: var(--tw-content);
     }
   }
   .after\:content-\[\'\|\'\] {
