@@ -236,7 +236,7 @@
                                group="detailed_info"
                                after="description">
                             <arguments>
-                                <argument name="title" xsi:type="string">
+                                <argument name="title" xsi:type="string" translate="true">
                                     Trust badges
                                 </argument>
                                 <argument name="sort_order" xsi:type="number">15</argument>
