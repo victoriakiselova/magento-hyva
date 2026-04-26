@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b4a1d70079afe614a265cd3205fdfc21",
+    "content-hash": "8f784b0c14b90a4c47689bedf56fa529",
     "packages": [
         {
             "name": "2tvenom/cborencode",
@@ -2867,6 +2867,53 @@
                 "issues": "https://gitlab.hyva.io/hyva-themes/magento2-theme-module/-/issues"
             },
             "time": "2026-03-16T10:02:27+00:00"
+        },
+        {
+            "name": "hyva-themes/module-magento2-admin",
+            "version": "1.1.27",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hyva-themes/magento2-hyva-admin.git",
+                "reference": "65e306a714dc624182f0579bac02df91e3a33498"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hyva-themes/magento2-hyva-admin/zipball/65e306a714dc624182f0579bac02df91e3a33498",
+                "reference": "65e306a714dc624182f0579bac02df91e3a33498",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "laminas/laminas-code": ">=3.0.0",
+                "magento/framework": ">=101.0.0",
+                "magento/module-backend": ">=101.0.0",
+                "php": "^7.3.0||>=8.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Hyva\\Admin\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "This module aims to make creating grids and forms in the Magento 2 adminhtml area for developers joyful and fast",
+            "support": {
+                "issues": "https://github.com/hyva-themes/magento2-hyva-admin/issues",
+                "source": "https://github.com/hyva-themes/magento2-hyva-admin/tree/1.1.27"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/vinai",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-10-23T20:03:43+00:00"
         },
         {
             "name": "jajuma/awesomehyva",

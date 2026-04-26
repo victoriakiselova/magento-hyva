@@ -1,5 +1,6 @@
 @import "@hyva-themes/hyva-modules/css";
 @import "tailwindcss" source(none);
+
 @source "../../**/*.phtml";
 @source "../../**/*.xml";
 @source "../../../../app/code/**/*.phtml";
@@ -16,6 +17,8 @@
 
 
 @theme {
+    --font-family-base: 'Raleway', sans-serif;
+
     --color-bg: var(--color-slate-50);
     --color-fg: var(--color-slate-950);
     --color-fg-secondary: var(--color-slate-600);
@@ -29,6 +32,18 @@
 }
 
 @layer base {
+    @font-face {
+        font-family: 'Raleway';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url(../fonts/Raleway-VariableFont_wght.ttf) format('truetype');
+    }
+
+    body {
+        font-family: 'BadScript', sans-serif;
+    }
+
     :root,
     :host {
         --color-background: #c4b5fd;

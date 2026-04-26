@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Aureatelabs_HyvaAdminGrid::product_grid"
+             title="Products Grid"
+             module="Aureatelabs_HyvaAdminGrid"
+             sortOrder="100"
+             resource="Aureatelabs_HyvaAdminGrid::product_grid"
+             action="aureatelabs/product/grid"
+             parent="Magento_Catalog::catalog"/>
+    </menu>
+</config>

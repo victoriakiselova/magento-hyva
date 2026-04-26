@@ -1203,9 +1203,6 @@
   .flex-row {
     flex-direction: row;
   }
-  .flex-row-reverse {
-    flex-direction: row-reverse;
-  }
   .flex-nowrap {
     flex-wrap: nowrap;
   }
@@ -2195,18 +2192,6 @@
       background-color: var(--color-red-500);
     }
   }
-  .after\:ml-0\.5 {
-    &::after {
-      content: var(--tw-content);
-      margin-left: calc(var(--spacing) * 0.5);
-    }
-  }
-  .after\:ml-2 {
-    &::after {
-      content: var(--tw-content);
-      margin-left: calc(var(--spacing) * 2);
-    }
-  }
   .after\:ml-3 {
     &::after {
       content: var(--tw-content);
@@ -2217,24 +2202,6 @@
     &::after {
       content: var(--tw-content);
       color: var(--color-gray-400);
-    }
-  }
-  .after\:text-gray-500 {
-    &::after {
-      content: var(--tw-content);
-      color: var(--color-gray-500);
-    }
-  }
-  .after\:text-red-500 {
-    &::after {
-      content: var(--tw-content);
-      color: var(--color-red-500);
-    }
-  }
-  .after\:content-\[\'\*\'\] {
-    &::after {
-      --tw-content: '*';
-      content: var(--tw-content);
     }
   }
   .after\:content-\[\'\|\'\] {
@@ -2930,6 +2897,11 @@
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
+  .md\:grid-cols-\[42\%_minmax\(0px\,1fr\)\] {
+    @media (width >= 48rem) {
+      grid-template-columns: 42% minmax(0px,1fr);
+    }
+  }
   .md\:flex-row {
     @media (width >= 48rem) {
       flex-direction: row;
@@ -2943,6 +2915,11 @@
   .md\:items-center {
     @media (width >= 48rem) {
       align-items: center;
+    }
+  }
+  .md\:items-start {
+    @media (width >= 48rem) {
+      align-items: flex-start;
     }
   }
   .md\:justify-between {
@@ -3292,6 +3269,11 @@
   .lg\:justify-start {
     @media (width >= 64rem) {
       justify-content: flex-start;
+    }
+  }
+  .lg\:gap-x-10 {
+    @media (width >= 64rem) {
+      column-gap: calc(var(--spacing) * 10);
     }
   }
   .lg\:px-5 {
@@ -5236,6 +5218,16 @@ body:where(:not([class*="-full-width"])) {
   top: 0;
 }
 @layer base {
+  @font-face {
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(../fonts/Raleway-VariableFont_wght.ttf) format('truetype');
+  }
+  body {
+    font-family: 'BadScript', sans-serif;
+  }
   :root, :host {
     --color-background: #c4b5fd;
     --color-white: #ffffff;

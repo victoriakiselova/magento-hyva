@@ -22,6 +22,7 @@
         "hyva-themes/magento2-default-theme": "^1.4",
         "hyva-themes/magento2-heroicons2": "^2.0",
         "hyva-themes/magento2-luma-checkout": "^1.1",
+        "hyva-themes/module-magento2-admin": "^1.1",
         "jajuma/awesomehyva": "^2.1",
         "magento/composer-dependency-version-audit-plugin": "~0.1",
         "magento/composer-root-update-plugin": "^2.0.4",
