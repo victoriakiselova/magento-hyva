@@ -1,0 +1,19 @@
+<?php
+/**
+ * @var \Magento\Catalog\Block\Product\View $block
+ * @var \Magento\Catalog\Model\Product $product
+ */
+
+$product = $block->getProduct();
+$price = $product->getFinalPrice();
+?>
+
+<div x-data="{
+        qty: 1,
+        price: <?= (float)$product->getFinalPrice() ?>
+    }"
+     @update-qty-<?= (int)$product->getId() ?>.window="qty = $event.detail">
+    <p x-text="(qty * price).toFixed(2) + ' $'"
+       class="normal-price text-2xl lg:text-3xl font-bold text-blue-700"></p>
+
+</div>
