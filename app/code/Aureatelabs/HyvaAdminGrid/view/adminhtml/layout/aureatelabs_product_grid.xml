@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd"
+      layout="admin-1column">
+    <update handle="hyva_admin_grid"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Hyva\Admin\Block\Adminhtml\HyvaGrid"
+                   name="aureatelabs.products.grid"
+                   template="Hyva_Admin::grid.phtml">
+                <arguments>
+                    <argument name="gridName" xsi:type="string">aureatelabs-products-grid</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>
