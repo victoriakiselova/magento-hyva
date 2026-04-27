@@ -391,6 +391,7 @@ return [
         'Hyva_LumaCheckout' => 1,
         'Jajuma_AwesomeHyva' => 1,
         'MageQuest_LiteYouTube' => 1,
+        'Mageplaza_Core' => 1,
         'Mollie_Payment' => 1,
         'Mollie_HyvaCompatibility' => 1,
         'PayPal_Braintree' => 1,
