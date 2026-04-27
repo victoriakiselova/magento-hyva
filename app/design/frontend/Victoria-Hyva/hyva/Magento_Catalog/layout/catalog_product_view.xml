@@ -33,12 +33,20 @@
 
         <referenceContainer name="content">
             <referenceContainer name="product.info.main">
+<!--                <block class="Magento\Catalog\Block\Product\View" name="total-product-price"-->
+<!--                       template="Magento_Catalog::product/view/total-price.phtml" after="product-info"/>-->
+
                 <block class="Magento\Catalog\Block\Product\View" name="product.detail.page"
                        template="Magento_Catalog::product/product-detail-page.phtml">
 
                     <block class="Magento\Catalog\Block\Product\View"
                            name="product.info"
                            template="Magento_Catalog::product/view/product-info.phtml">
+                        <block class="Magento\Catalog\Block\Product\View"
+                               name="total-product-price"
+                               template="Magento_Catalog::product/view/total-price.phtml"
+                               />
+
                         <arguments>
                             <argument name="attributes" xsi:type="array">
                                 <item name="sku" xsi:type="array">
@@ -123,6 +131,7 @@
                                name="product.info.price"
                                template="Magento_Catalog::product/view/price.phtml"
                         />
+
                         <block class="Magento\Catalog\Block\Product\View"
                                name="product.info.form"
                                template="Magento_Catalog::product/view/product-form.phtml"
@@ -244,9 +253,11 @@
                         </block>
                     </block>
                 </block>
-            </referenceContainer>
 
-            <block class="Magento\Catalog\Block\Widget\RecentlyViewed"
+
+
+            </referenceContainer>
+           <block class="Magento\Catalog\Block\Widget\RecentlyViewed"
                    name="recently_viewed_products.default_widget_pdp"
                    ifconfig="catalog/recently_products/show_on_pdp"
                    template="Magento_Catalog::product/widget/viewed/list.phtml">

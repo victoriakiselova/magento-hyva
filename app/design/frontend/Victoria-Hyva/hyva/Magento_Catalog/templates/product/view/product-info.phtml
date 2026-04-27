@@ -99,9 +99,10 @@ $productType = $product->getTypeId();
     <?php endif; ?>
 
     <?php if ($additionalActions = $block->getChildHtml('product.info.additional.actions')): ?>
-        <div class="flex mt-4 justify-end">
-            <?= /** @noEscape */
-            $additionalActions; ?>
+        <div class="flex mt-4 justify-between gap-2">
+            <?= $block->getChildHtml('total-product-price'); ?>
+            <div><?= /** @noEscape */
+                $additionalActions; ?></div>
         </div>
     <?php endif; ?>
 
@@ -113,4 +114,6 @@ $productType = $product->getTypeId();
     <?php endif; ?>
 
     <?= $block->getChildHtml("product.info.additional") ?>
+
+
 </div>
