@@ -22,7 +22,11 @@
                    template="Magento_Theme::html/alpine.phtml"/>
             <block class="Magento\Framework\View\Element\Template" name="helper-functions" after="alpine"
                    template="Magento_Theme::html/helper-functions.phtml"/>
+        </referenceContainer>
 
+        <referenceContainer name="columns">
+            <block class="Magento\Framework\View\Element\Template" name="accordion"
+                   template="Magento_Theme::html/accordion.phtml"/>
         </referenceContainer>
     </body>
 </page>

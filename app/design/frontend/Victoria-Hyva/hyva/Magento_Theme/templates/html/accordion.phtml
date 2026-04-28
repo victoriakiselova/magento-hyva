@@ -1,0 +1,26 @@
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ */ ?>
+<script src="<?= $escaper->escapeUrl($block->getViewFileUrl('Magento_Theme::js/accordionService.js')) ?>"></script>
+
+<ul x-data="{
+    accordionList: window.accordionData,
+    activeIndex: null,
+    toggle(index) {
+        this.activeIndex = this.activeIndex === index ? null : index;
+    }
+}" class="p-3 md:p-4 bg-gray-100 rounded-xl mb-4">
+    <template x-for="(item, index) in accordionList" :key="index">
+        <li class="p-3 border-b border-gray-300 last:border-b-0 cursor-pointer">
+            <h3 @click="toggle(index)" x-text="item.title"
+                class="text-md  text-gray-900 font-normal tracking-wider leading-normal"></h3>
+            <div x-show="activeIndex === index" x-collapse x-transition>
+                <p class="pt-3 text-sm  text-gray-900 font-normal tracking-wider leading-normal"
+                   x-text="item.content"></p>
+            </div>
+        </li>
+    </template>
+</ul>
+
