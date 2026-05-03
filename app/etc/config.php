@@ -374,6 +374,7 @@ return [
         'Magento_WishlistGraphQl' => 1,
         'Magento_WishlistSampleData' => 1,
         'Aureatelabs_CustomQuote' => 1,
+        'Aureatelabs_FreeShipping' => 1,
         'Aureatelabs_HyvaAdminGrid' => 1,
         'Aureatelabs_HyvaNestedPopup' => 1,
         'Aureatelabs_SliderSplide' => 1,

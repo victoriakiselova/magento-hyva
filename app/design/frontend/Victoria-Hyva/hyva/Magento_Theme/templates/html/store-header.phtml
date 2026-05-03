@@ -21,7 +21,7 @@ $customer = $viewModels->require(Customer::class);
             name = e.detail?.data?.customer?.firstname;
         }
     })
-           " class="flex items-end justify-center gap-3 border-b border-gray-400 p-2">
+           " class="flex items-end justify-center gap-3 border-b border-gray-300 p-2">
     <span
         class="text-gray-950 text-xl after:ml-3 after:text-gray-400 after:content-['|']"><?= $store->getStore()->getName(); ?></span>
     <?= __('Username') ?> : <strong x-text="name"></strong>
