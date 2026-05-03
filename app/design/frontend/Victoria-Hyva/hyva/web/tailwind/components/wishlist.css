@@ -1,0 +1,16 @@
+/**
+ * Wishlist Button Styles
+ */
+
+/* Кнопка wishlist с активным состоянием (товар в wishlist) */
+button[data-addto="wishlist"].text-red-600 svg {
+    fill: currentColor;
+    stroke: currentColor;
+}
+
+/* Иконка сердца заполняется красным при isActive */
+button[data-addto="wishlist"] span:has(.fill-current) svg,
+button[data-addto="wishlist"] .fill-current svg {
+    fill: currentColor;
+}
+

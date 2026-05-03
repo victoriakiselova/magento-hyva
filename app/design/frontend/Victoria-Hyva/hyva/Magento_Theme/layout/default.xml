@@ -18,5 +18,20 @@
                 </arguments>
             </block>
         </referenceContainer>
+
+        <referenceBlock name="header-content">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="custom-wishlist-counter"
+                   as="wishlist-counter"
+                   template="Magento_Catalog::product/list/wishlist/wishlist-counter.phtml"
+                   before="-"/>
+
+            <block class="Magento\Framework\View\Element\Template" name="shipping-progress-bar-header"
+                   template="Magento_Theme::progress-bar/shipping-progress-bar-header.phtml"/>
+        </referenceBlock>
+
+        <referenceContainer name="before.body.end">
+            <block name="freeshipping.js.init" template="Magento_Theme::progress-bar/initGetFreeShipping.phtml"/>
+        </referenceContainer>
     </body>
 </page>

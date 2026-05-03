@@ -112,6 +112,8 @@ $showWishlist = $block->getShowWishlist() !== null ? (bool) $block->getShowWishl
                 <?= $block->getChildHtml('compare'); ?>
             <?php endif; ?>
 
+            <?= $block->getChildHtml('wishlist-counter') ?>
+
             <button
                 id="menu-search-icon"
                 class="btn bg-transparent border-transparent p-1"
@@ -126,13 +128,13 @@ $showWishlist = $block->getShowWishlist() !== null ? (bool) $block->getShowWishl
                 <?= $lucideIcons->searchHtml('', 24, 24, ["aria-hidden" => "true"]) ?>
             </button>
 
+
+
             <?= $block->getChildHtml('additional') ?>
 
             <?= $block->getChildHtml('customer') ?>
 
-            <?php if ($showWishlist): ?>
-                <?= $block->getChildHtml('wishlist') ?>
-            <?php endif ?>
+
 
             <?php if ($showMiniCart): ?>
                 <button
@@ -167,6 +169,8 @@ $showWishlist = $block->getShowWishlist() !== null ? (bool) $block->getShowWishl
                 <?php else: ?>
             </a>
         <?php endif ?>
+
+            <?= $block->getChildHtml('shipping-progress-bar-header') ?>
         </div>
     </div>
 

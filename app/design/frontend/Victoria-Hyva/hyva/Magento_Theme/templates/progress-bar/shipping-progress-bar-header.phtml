@@ -1,0 +1,7 @@
+<?php /** @var \Magento\Framework\Escaper $escaper */ ?>
+
+<div x-data="initGetFreeShipping()" x-init="init()">
+    <p class="text-[10px] text-gray-800 leading-1 tracking-wide text-center"
+       x-text="'<?= $escaper->escapeJs(__('Free shipping: %1')) ?>'.replace('%1', Math.round(progress || 0) + '%')">
+    </p>
+</div>

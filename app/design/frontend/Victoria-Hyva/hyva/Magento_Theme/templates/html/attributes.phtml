@@ -1,5 +1,5 @@
 <div x-data="{ attributes: { class: 'bg-blue-500', style: 'color: white;' } }" class="flex justify-center mb-2">
     <div x-spread="attributes">
-        <p x-bind:title="attributes['class']">Hover over me!</p>
+        <p x-bind:title="attributes['class']"><?= __('Hover over me!') ?></p>
     </div>
 </div>

@@ -1,0 +1,14 @@
+<?php /** @var \Magento\Framework\Escaper $escaper */ ?>
+
+<div x-data="{ qtyInWishlist: null }"
+     x-init="
+        window.addEventListener('private-content-loaded', (event) => {
+            qtyInWishlist =
+                event.detail.data.wishlist?.items?.length || 0
+        })
+    "
+     class="flex flex-col items-center justify-center gap-1"
+>
+    <p class="text-[10px] text-gray-900"><?= $escaper->escapeHtml('Wishlist') ?></p>
+    <p x-text="qtyInWishlist" class="text-xs text-gray-900 font-500"></p>
+</div>

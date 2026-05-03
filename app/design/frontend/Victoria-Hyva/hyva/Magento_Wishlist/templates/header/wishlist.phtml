@@ -1,0 +1,67 @@
+<?php
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\HyvaCsp;
+use Hyva\Theme\ViewModel\LucideIcons;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+
+/** @var Escaper $escaper */
+/** @var Template $block */
+/** @var ViewModelRegistry $viewModels */
+/** @var HyvaCsp $hyvaCsp */
+
+$lucideIcons = $viewModels->require(LucideIcons::class);
+?>
+
+<a href="<?= $escaper->escapeUrl($block->getUrl('wishlist')) ?>"
+   class="relative hidden md:inline-flex btn bg-transparent border-transparent p-1"
+   x-data="initWishlistHeader()"
+   :aria-label="'Wishlist (' + itemCount + ')'"
+>
+    <?= $lucideIcons->heartHtml('', 24, 24) ?>
+    <template x-if="itemCount > 0">
+        <span x-text="itemCount"
+              class="absolute -top-1.5 -right-1.5 px-2 py-1 rounded-full bg-primary text-on-primary text-xs font-semibold"
+        ></span>
+    </template>
+</a>
+
+<script>
+    function initWishlistHeader() {
+        return {
+            itemCount: 0,
+
+            init() {
+                // Підписуємося на події Hyvä
+                window.addEventListener('hyva:sections-loaded', () => {
+                    this.updateCount();
+                });
+
+                // Слухаємо зміни wishlist
+                window.addEventListener('wishlist-updated', () => {
+                    setTimeout(() => this.updateCount(), 100);
+                });
+
+                this.updateCount();
+            },
+
+            updateCount() {
+                if (typeof hyva === 'undefined' || typeof hyva.getSectionData !== 'function') {
+                    this.itemCount = 0;
+                    return;
+                }
+
+                const wishlistData = hyva.getSectionData()?.wishlist;
+                this.itemCount = wishlistData?.counter ? parseInt(wishlistData.counter) : 0;
+            }
+        }
+    }
+
+    window.addEventListener('alpine:init', () => {
+        Alpine.data('initWishlistHeader', initWishlistHeader);
+    }, { once: true });
+</script>
+<?php $hyvaCsp->registerInlineScript() ?>
+

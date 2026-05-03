@@ -1,0 +1,42 @@
+<script>
+    window.initGetFreeShipping = function () {
+        return {
+            free: false,
+            subtotal: 0,
+            remaining: 0,
+            progress: 0,
+            FREE_SHIPPING_THRESHOLD: 80,
+
+            init() {
+                window.addEventListener('private-content-loaded', (event) => {
+                    const cart = event.detail.data.cart;
+
+                    this.subtotal = parseFloat(cart.subtotalAmount || 0);
+                    this.remaining = this.FREE_SHIPPING_THRESHOLD - this.subtotal;
+                    if (this.remaining < 0) {
+                        this.remaining = 0;
+                    }
+
+                    this.progress = (this.subtotal / this.FREE_SHIPPING_THRESHOLD) * 100;
+
+                    if (this.progress > 100) {
+                        this.progress = 100;
+                    }
+
+                    if (this.remaining === 0) {
+                        this.free = true;
+                    } else {
+                        this.free = false;
+                    }
+                    window.dispatchEvent(new CustomEvent('free-shipping-updated', {
+                        detail: {
+                            free: this.free,
+                            progress: this.progress,
+                            remaining: this.remaining
+                        }
+                    }));
+                });
+            }
+        }
+    }
+</script>

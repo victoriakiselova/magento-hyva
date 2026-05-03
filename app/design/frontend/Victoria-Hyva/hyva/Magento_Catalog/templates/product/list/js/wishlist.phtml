@@ -1,0 +1,125 @@
+<script>
+    window.initWishlist = function (productId) {
+
+        return {
+            productId: productId,
+            isActive: false,
+            isLoading: false,
+            init() {
+                let sectionData = null;
+
+                if (window.hyva && typeof hyva.getSectionData === 'function') {
+                    sectionData = hyva.getSectionData('wishlist');
+                } else {
+                    const storage = JSON.parse(localStorage.getItem('mage-cache-storage'));
+                    sectionData = storage ? storage.wishlist : null;
+                }
+
+                if (sectionData && sectionData.items) {
+                    this.checkStatus(sectionData);
+                }
+
+                window.addEventListener('private-content-loaded', (event) => {
+                    const wishlist = event.detail.data.wishlist;
+                    if (wishlist) {
+                        this.checkStatus(wishlist);
+                    }
+                });
+
+                this.listenToWishlistEvents();
+            },
+
+            checkStatus(wishlistData) {
+                if (!wishlistData || !wishlistData.items) return;
+                this.isActive = wishlistData.items.some(
+                    item => parseInt(item.product_id) === parseInt(this.productId)
+                );
+            },
+
+            listenToWishlistEvents() {
+                window.addEventListener('wishlist-updated', (event) => {
+                    if (parseInt(event.detail.productId) === parseInt(this.productId)) {
+                        this.isActive = event.detail.action === 'add';
+                    }
+                });
+            },
+
+            toggleWishlist() {
+                const action = this.isActive ? 'remove' : 'add';
+                const url = this.isActive
+                    ? BASE_URL + 'wishlist/index/remove/'
+                    : BASE_URL + 'wishlist/index/add/';
+
+                let postParams = {
+                    action: url,
+                    data: {
+                        product: this.productId,
+                        uenc: hyva.getUenc(),
+                        form_key: hyva.getFormKey(),
+                        qty: document.getElementById(`qty[${this.productId}]`)?.value || 1
+                    }
+                };
+
+                let postData = Object.keys(postParams.data).map(key => {
+                    return `${key}=${postParams.data[key]}`;
+                }).join('&');
+
+                Array.from(document.querySelectorAll(
+                    '[name^=options], [name^=super_attribute], [name^=bundle_option], [name^=super_group], [name^=links]')
+                ).forEach(input => {
+                    if (input.type === "select-multiple") {
+                        Array.from(input.selectedOptions).forEach(option => {
+                            postData += `&${input.name}=${option.value}`;
+                        });
+                    } else {
+                        if (!(['radio', 'checkbox'].includes(input.type) && !input.checked)) {
+                            postData += `&${input.name}=${input.value}`;
+                        }
+                    }
+                });
+
+                this.isLoading = true;
+
+                fetch(postParams.action, {
+                    method: 'POST',
+                    headers: {'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+                    body: postData,
+                    credentials: 'include'
+                })
+                    .then(response => {
+                        if (response.redirected) {
+                            window.location.href = response.url;
+                            return null;
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (!data) return;
+                        if (data.success) {
+                            this.isActive = !this.isActive;
+                            window.dispatchEvent(new CustomEvent('wishlist-updated', {
+                                detail: {
+                                    productId: this.productId,
+                                    action: this.isActive ? 'add' : 'remove'
+                                }
+                            }));
+                            window.dispatchEvent(new CustomEvent('reload-customer-section-data'));
+                            const message = this.isActive
+                                ? "Product added to Wish List"
+                                : "Product removed from Wish List";
+                            if (typeof window.dispatchMessages !== "undefined") {
+                                window.dispatchMessages([{type: "success", text: message}], 5000);
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Wishlist error:', error);
+                    })
+                    .finally(() => {
+                        this.isLoading = false;
+                    });
+            }
+        };
+    };
+</script>
+

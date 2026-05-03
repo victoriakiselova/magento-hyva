@@ -1,8 +1,9 @@
 <div x-data="initComponent()" class="flex justify-center">
     <div>
-        <button @click="toggleDropdown" class="bg-gray-200 p-2 border rounded-sm mb-3">Toggle dropdown</button>
+        <button @click="toggleDropdown"
+                class="bg-gray-200 p-2 border rounded-sm mb-3"> <?= __('Toggle dropdown') ?>  </button>
         <div x-show="open" @click.away="closeDropdown" @click.outside="closeDropdown">
-            Dropdown content
+            <?= __('Dropdown content') ?>
         </div>
     </div>
 </div>
