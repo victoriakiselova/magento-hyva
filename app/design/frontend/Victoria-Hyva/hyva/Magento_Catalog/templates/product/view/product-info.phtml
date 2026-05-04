@@ -87,6 +87,14 @@ $productType = $product->getTypeId();
             $shortDescription ?></div>
     <?php endif; ?>
 
+    <?php if ($additionalActions = $block->getChildHtml('product.info.additional.actions')): ?>
+        <div class="flex mt-4 justify-between gap-2 flex-wrap">
+            <?= $block->getChildHtml('total-product-price'); ?>
+            <div><?= /** @noEscape */
+                $additionalActions; ?></div>
+        </div>
+    <?php endif; ?>
+
     <?= $block->getChildHtml('product.info.form') ?>
 
     <div class="flex flex-col sm:flex-row items-end my-4">
@@ -100,6 +108,8 @@ $productType = $product->getTypeId();
         <div role="group" aria-label="<?= $escaper->escapeHtmlAttr('Price') ?>">
             <?= $block->getChildHtml("product.info.price") ?>
         </div>
+
+
 
         <div class="flex gap-2 mt-4 ml-auto sm:mt-0">
             <?php if ($product->isSaleable()): ?>
@@ -116,13 +126,7 @@ $productType = $product->getTypeId();
         </div>
     <?php endif; ?>
 
-    <?php if ($additionalActions = $block->getChildHtml('product.info.additional.actions')): ?>
-        <div class="flex mt-4 justify-between gap-2">
-            <?= $block->getChildHtml('total-product-price'); ?>
-            <div><?= /** @noEscape */
-                $additionalActions; ?></div>
-        </div>
-    <?php endif; ?>
+
 
     <?php if ($tierPriceBlock = $block->getChildHtml("product.price.tier")): ?>
         <div class="py-4 my-2 tier-price-container">

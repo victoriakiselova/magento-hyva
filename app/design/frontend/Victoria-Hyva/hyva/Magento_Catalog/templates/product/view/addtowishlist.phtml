@@ -29,7 +29,7 @@ if (!$product->getId() || !$wishlistViewModel->isEnabled()) {
         id="add-to-wishlist"
         class="btn p-2 rounded-full ml-4 transition-colors"
         :class="isActive ? 'text-red-600' : 'text-gray-400 hover:text-red-400'"
->
+>    <span class="text-sm text-gray-600"><?= $escaper->escapeHtmlAttr(__('Add to Wishlist')) ?></span>
     <span>
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" :fill="isActive ? 'currentColor' : 'none'"
              stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"

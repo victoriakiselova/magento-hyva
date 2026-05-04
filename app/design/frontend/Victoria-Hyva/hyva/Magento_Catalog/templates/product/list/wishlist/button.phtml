@@ -32,6 +32,7 @@ if (!($product = $block->getData('product'))) {
         data-addto="wishlist"
         :title="isActive ? '<?= $escaper->escapeHtmlAttr(__('In Wishlist')) ?>' : '<?= $escaper->escapeHtmlAttr(__('Add to Wishlist')) ?>'"
 >
+
     <span>
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" :fill="isActive ? 'currentColor' : 'none'"
              stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
