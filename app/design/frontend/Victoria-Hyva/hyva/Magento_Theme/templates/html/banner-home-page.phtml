@@ -1,0 +1,17 @@
+<?php /** @var Escaper $escaper */
+
+/** @var \Magento\Catalog\Block\Product\View $block */
+
+use Magento\Framework\Escaper; ?>
+
+<div class="py-4 overflow-hidden relative"><img alt="banner"
+                                                src="<?= $block->getViewFileUrl('Magento_Theme::Images/banner.jpg') ?>"
+                                                class="rounded-lg"/>
+    <div class="bg-white px-5 py-8 absolute top-10 right-5 z-10 w-[270px] rounded-lg">
+        <h1 class="title mb-3 font-bold"><?= $escaper->escapeHtmlAttr(__('New Luma Yoga Collection')) ?></h1>
+
+        <p class="info mb-3"><?= $escaper->escapeHtmlAttr(__('Get fit and look fab in new seasonal styles')) ?></p>
+        <button
+            class="action more button py-2 px-4 text-sm bg-blue-600 text-white rounded-lg"><?= $escaper->escapeHtmlAttr(__('Shop New Yoga')) ?></button>
+    </div>
+</div>
