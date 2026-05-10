@@ -8,10 +8,23 @@
             <block class="Magento\Checkout\Block\Cart\ValidationMessages" name="checkout.cart.validationmessages"/>
         </referenceContainer>
         <referenceContainer name="content">
+
+            <container name="delivery-data" htmlTag="div" htmlClass="p-5 bg-gray-100 rounded mb-5 rounded-lg">
+                <block class="Magento\Framework\View\Element\Template" name="js.shipping" as="shipping-js"
+                       template="Magento_Checkout::delivery/initGetDeliveryData.phtml"/>
+                <block class="Magento\Framework\View\Element\Template" name="date-picker"
+                       template="Magento_Checkout::delivery/delivery-date-picker.phtml" after="form_before"/>
+                <block class="Magento\Framework\View\Element\Template" name="option-delivery"
+                       template="Magento_Checkout::delivery/delivery-options.phtml"/>
+                <block class="Magento\Framework\View\Element\Template" name="custom-shipping"
+                       template="Magento_Checkout::delivery/shipping-summary.phtml"/>
+            </container>
+
             <block class="Magento\Checkout\Block\Cart" name="checkout.cart" template="Magento_Checkout::cart.phtml"
                    cacheable="false">
                 <container name="checkout.cart.items" as="with-items">
                     <container name="checkout.cart.container" htmlTag="div" htmlClass="cart-container" before="-">
+
                         <container name="checkout.cart.form.before" as="form_before" label="Shopping Cart Items Before"
                                    htmlTag="div" htmlClass="rewards"/>
                         <container name="cart.summary" label="Cart Summary Container" htmlTag="div"
@@ -275,7 +288,6 @@
                                     <block class="Magento\Checkout\Block\QuoteShortcutButtons"
                                            name="checkout.cart.shortcut.buttons"/>
                                 </container>
-
                             </block>
                         </container>
                         <block class="Magento\Checkout\Block\Cart\Grid" name="checkout.cart.form" as="cart-items"
@@ -287,7 +299,6 @@
                                    name="checkout.cart.item.renderers" as="renderer.list"/>
                             <block class="Magento\Framework\View\Element\Text\ListText"
                                    name="checkout.cart.order.actions"/>
-
                         </block>
                         <container name="checkout.cart.widget" as="checkout_cart_widget"
                                    label="Shopping Cart Items After" after="cart-items"/>

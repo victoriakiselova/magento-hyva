@@ -1,0 +1,11 @@
+<?php /** @var \Magento\Framework\Escaper $escaper */
+$delivery = $escaper->escapeJs(__('Delivery: '));
+$date = $escaper->escapeJs(__('Date: '));
+$shipping = $escaper->escapeJs(__('Shipping: '));
+?>
+
+<div x-data="initGetDelivery()">
+    <p x-text="'<?= $delivery ?>' + (optionDelivery || '')"></p>
+    <p x-text="'<?= $date ?>' + (date || '')"></p>
+    <p x-text="'<?= $shipping ?>' + (shippingSum || 0)"></p>
+</div>

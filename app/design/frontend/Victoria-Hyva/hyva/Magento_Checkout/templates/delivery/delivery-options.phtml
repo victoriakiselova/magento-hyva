@@ -1,0 +1,36 @@
+<?php /** @var \Magento\Framework\Escaper $escaper */ ?>
+
+<div x-data="initGetDelivery()" x-init="init()" class="p-4 flex flex-col gap-3">
+    <label for="standard" class="text-gray-800 text-md leading-normal">Standard
+        <input type="radio" name="delivery" value="standard" x-model="optionDelivery" class="checked:bg-blue-600"
+               @change="shipping = ''; $dispatch('delivery-option-selected', {
+        optionDelivery: 'standard', shipping: '', shippingSum: 0
+    })"></label>
+
+    <label for="express" class="text-gray-800 text-md leading-normal">Express
+        <input type="radio" name="delivery" value="express" x-model="optionDelivery"
+               class="checked:bg-blue-600" @change="$dispatch('delivery-option-selected', {
+        optionDelivery: 'express', shipping: ''
+    })"></label>
+
+    <div x-show="open" class="p-3 pl-5">
+        <label for="today" class="text-gray-800 text-sm leading-normal">Today
+            <input type="radio" name="delivery" value="today" x-model="shipping" class="checked:bg-blue-600"
+                   @change="$dispatch('delivery-option-selected', {
+       optionDelivery: 'express', shipping: 'today'
+    })"></label>
+        <label for="tomorrow" class="text-gray-800 text-sm leading-normal">Tomorrow
+            <input type="radio" name="delivery" value="tomorrow" x-model="shipping" class="checked:bg-blue-600"
+                   @change="$dispatch('delivery-option-selected', {
+       optionDelivery: 'express', shipping: 'tomorrow'
+    })"></label>
+    </div>
+
+    <label for="pickup" class="text-gray-800 text-md leading-normal">Pickup
+        <input type="radio" name="delivery" value="pickup" x-model="optionDelivery" class="checked:bg-blue-600"
+               @change="shipping = ''; $dispatch('delivery-option-selected', {
+        optionDelivery: 'pickup', shipping: '', shippingSum: 0
+    }); $dispatch('delivery-date-reset', {
+        optionDelivery: 'pickup', shipping: '', shippingSum: 0
+    })"></label>
+</div>
