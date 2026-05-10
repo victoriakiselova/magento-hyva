@@ -1,0 +1,13 @@
+<?php /** @var \Magento\Framework\Escaper $escaper */
+?>
+
+<div x-data="initGetDelivery()" x-init="init()" class="p-4">
+    <input type="date" x-model="date" class="mr-3"
+           :disabled="optionDelivery === 'pickup' || optionDelivery === 'express'"
+           @change="$dispatch('delivery-date-selected', {
+        date: $event.target.value
+    })">
+    <button type="button"
+            class="px-4 py-2 text-white text-md leading-normal bg-blue-600 cursor-pointer rounded hover:bg-blue-400 transition-all duration-300"
+            @click="date = ''; $dispatch('delivery-date-reset', { date: null})"><?= $escaper->escapeHtmlAttr(__('Reset')) ?></button>
+</div>
