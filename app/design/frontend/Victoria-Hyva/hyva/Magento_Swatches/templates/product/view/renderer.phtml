@@ -1,0 +1,194 @@
+<?php
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\SwatchRenderer;
+use Magento\Framework\Escaper;
+use Magento\Swatches\Block\Product\Renderer\Configurable;
+use Magento\Swatches\ViewModel\Product\Renderer\Configurable as ConfigurableViewModel;
+
+// phpcs:disable Generic.Files.LineLength.TooLong
+
+/** @var Configurable $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+/** @var ConfigurableViewModel $configurableViewModel */
+$configurableViewModel = $viewModels->require(ConfigurableViewModel::class);
+
+/** @var SwatchRenderer $swatchRendererViewModel */
+$swatchRendererViewModel = $viewModels->require(SwatchRenderer::class);
+
+$product = $block->getProduct();
+$productId = $product->getId();
+
+$attributes = $block->decorateArray($block->getAllowAttributes());
+
+$layout = $block->getLayout();
+$swatchItemBlock = $layout->getBlock('product.swatch.item');
+$swatchItemBlock->setData('product_id', $productId);
+
+$tooltipBlockHtml = $block->getBlockHtml('product.swatch.tooltip');
+
+$material = $escaper->escapeJs(__('Material: '));
+$color = $escaper->escapeJs(__('Color: '));
+$style = $escaper->escapeJs((__('Style: ')));
+$sku = $escaper->escapeJs((__('SKU: ')));
+?>
+
+<?php if ($product->isSaleable() && count($attributes)): ?>
+    <?php
+    $children = $product
+        ->getTypeInstance()
+        ->getUsedProducts($product);
+    $comparisonCards = [];
+
+    foreach ($children as $child) {
+        $materialValue = $product->getAttributeText('material');
+        if (is_array($materialValue)) {
+            $materialValue = implode(', ', $materialValue);
+        }
+
+        $styleValue = $product->getAttributeText('style_general');
+        if (is_array($styleValue)) {
+            $styleValue = implode(', ', $styleValue);
+        }
+
+        $sizeValue = $child->getAttributeText('size');
+        if (is_array($sizeValue)) {
+            $sizeValue = implode(', ', $sizeValue);
+        }
+
+        $colorValue = $child->getAttributeText('color');
+        if (is_array($colorValue)) {
+            $colorValue = implode(', ', $colorValue);
+        }
+        $comparisonCards[$child->getId()] = [
+            'sku' => (string)$child->getSku(),
+            'productId' => (int)$child->getId(),
+            'size' => (string)$sizeValue,
+            'material' => (string)($materialValue ?: 'Nylon, Polyester, HeatTec'),
+            'style' => (string)($styleValue ?: 'Tank'),
+            'color' => (string)$colorValue,
+        ];
+    }
+    ?>
+    <script>
+        window.comparisonCards = <?= json_encode($comparisonCards) ?>;
+        window.currentProductId = <?= (int)$productId ?>;
+
+        function initConfigurableSwatchOptions_<?= (int)$productId ?>() {
+            const configurableOptionsComponent = initConfigurableOptions(
+                '<?= (int)$productId ?>',
+                <?= /* @noEscape */ $block->getJsonConfig() ?>);
+            const swatchOptionsComponent = initSwatchOptions(
+                <?= /* @noEscape */ $block->getJsonSwatchConfig() ?>
+            );
+
+            return Object.assign(
+                configurableOptionsComponent,
+                swatchOptionsComponent,
+                {
+                    isActiveCard(card) {
+                        return this.productIndex && String(this.productIndex) === String(card.productId);
+                    },
+                    selectCard(card) {
+                        const index = this.optionConfig && this.optionConfig.index;
+                        if (!index) return;
+
+                        const productOptions = index[String(card.productId)] || index[card.productId];
+                        if (!productOptions) return;
+
+                        Object.entries(productOptions).forEach(([attributeId, optionValue]) => {
+                            if (optionValue) {
+                                this.changeOption(parseInt(attributeId, 10), optionValue);
+                            }
+                        });
+
+                        const imagesByProduct = this.optionConfig && this.optionConfig.images;
+                        const productImages = imagesByProduct
+                            && (imagesByProduct[String(card.productId)] || imagesByProduct[card.productId]);
+                        const mappedImages = productImages && productImages.map((image) => {
+                            const img = image.full || image.img;
+                            const thumb = image.thumb || img;
+                            return Object.assign({}, image, {img, thumb});
+                        });
+
+
+                        if (mappedImages && mappedImages.length) {
+                            window.dispatchEvent(new CustomEvent(
+                                'update-gallery',
+                                {detail: this.sortImagesByPosition(mappedImages)}
+                            ));
+                        } else {
+                            window.dispatchEvent(new Event('reset-gallery'));
+                        }
+
+                        if (typeof this.updateGallery === 'function') {
+                            this.updateGallery();
+                        }
+                    }
+                }
+            );
+        }
+
+    </script>
+    <div x-data="initConfigurableSwatchOptions_<?= (int)$productId ?>()"
+         @private-content-loaded.window="onGetCartData($event.detail.data)"
+         class="relative mb-6">
+
+        <h2 class="mb-4 text-xl font-medium text-gray-900 title-font">
+            <?= $escaper->escapeHtml(__('Product Options:')) ?>
+        </h2>
+
+        <?php
+        $labels = [
+            'sku' => $escaper->escapeHtml(__('SKU: ')),
+            'size' => $escaper->escapeHtml(__('Size: ')),
+            'material' => $escaper->escapeHtml(__('Material: ')),
+            'style' => $escaper->escapeHtml(__('Style: ')),
+            'color' => $escaper->escapeHtml(__('Color: '))
+        ];
+        ?>
+
+        <div aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden;opacity:0;pointer-events:none"
+             tabindex="-1">
+            <?php foreach ($attributes as $attribute): ?>
+                <?php $attributeId = $attribute->getAttributeId(); ?>
+                <template x-for="(item, index) in optionConfig.attributes[<?= (int)$attributeId ?>].options"
+                          :key="item.id">
+                    <input type="radio"
+                           form="product_addtocart_form"
+                           :value="item.id"
+                           name="super_attribute[<?= (int)$attributeId ?>]"
+                           x-model="selectedValues[<?= (int)$attributeId ?>]"
+                           tabindex="-1"
+                           style="position:absolute;opacity:0;pointer-events:none">
+                </template>
+            <?php endforeach; ?>
+        </div>
+
+        <div class="mb-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
+            <template x-for="card in window.comparisonCards" :key="card.productId">
+                <div
+                    @click="selectCard(card)"
+                    :class="{'border-blue-400 ring-2 ring-blue-400': isActiveCard(card), 'border-gray-600': !isActiveCard(card)}"
+                    class="p-1 md:p-2 border rounded text-xs font-medium text-gray-900 cursor-pointer hover:border-gray-800 hover:shadow-lg transition-all duration-300 ease-in-out hover:scale-105">
+                    <div><strong class="font-bold"><?= $labels['sku'] ?></strong><span x-text="card.sku"></span></div>
+                    <div><strong class="font-bold"><?= $labels['size'] ?></strong><span x-text="card.size"></span></div>
+                    <div><strong class="font-bold"><?= $labels['material'] ?></strong><span
+                            x-text="card.material"></span></div>
+                    <div><strong class="font-bold"><?= $labels['style'] ?></strong><span x-text="card.style"></span>
+                    </div>
+                    <div><strong class="font-bold"><?= $labels['color'] ?></strong><span x-text="card.color"></span>
+                    </div>
+                </div>
+            </template>
+
+            <template x-if="window.comparisonCards && Object.keys(window.comparisonCards).length === 0">
+                <div class="text-gray-500">
+                    <?= $escaper->escapeHtml(__('Not available')) ?>
+                </div>
+            </template>
+        </div>
+    </div>
+<?php endif; ?>
