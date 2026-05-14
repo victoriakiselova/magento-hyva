@@ -1,0 +1,17 @@
+<?php
+
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \Hyva\Theme\Model\ViewModelRegistry $viewModels */
+/** @var \Hyva\Theme\ViewModel\Modal $modalViewModel */
+$modalViewModel = $viewModels->require(\Hyva\Theme\ViewModel\Modal::class);
+$discountLabel = $escaper->escapeJs(__('Discount: -$'));
+$newTotalLabel = $escaper->escapeJs(__('New total: $'));
+?>
+<div x-data="initGetPromo()" x-init="init()">
+
+    <p x-text="'<?= $discountLabel ?>' + (totalDiscount ? totalDiscount : '0')"
+       class="text-gray-800 text-md leading-normal mb-3"></p>
+
+    <p x-text="'<?= $newTotalLabel ?>' + (subtotalWithDiscount ? subtotalWithDiscount : '0')"
+       class="text-gray-800 text-md leading-normal"></p>
+</div>

@@ -1,0 +1,46 @@
+<div>
+    <!-- ko if: !$parent.quoteIsVirtual -->
+    <!-- ko foreach: $parent.getRegion('customer-email') -->
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <!-- /ko -->
+    <!-- /ko -->
+
+    <button type="button"
+            data-bind="click: toggleForm, text: isFormVisible() ? 'Edit' : 'Show full address form'"></button>
+
+    <form class="form form-shipping-address" id="co-shipping-form"
+          data-bind="attr: {'data-hasrequired': $t('* Required Fields')}, visible: isFormVisible">
+
+        <!-- ko foreach: getRegion('before-fields') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+
+        <div id="shipping-new-address-form" class="fieldset address">
+            <!-- ko foreach: getRegion('additional-fieldsets') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!-- /ko -->
+
+            <!-- ko if: (isCustomerLoggedIn) -->
+            <div class="field choice" data-bind="visible: !isFormInline">
+                <input type="checkbox" class="checkbox" id="shipping-save-in-address-book"
+                       data-bind="checked: saveInAddressBook"/>
+                <label class="label" for="shipping-save-in-address-book">
+                    <span data-bind="i18n: 'Save in address book'"></span>
+                </label>
+            </div>
+            <!-- /ko -->
+        </div>
+    </form>
+
+    <div class="shipping-address-display">
+        <!-- ko if: displayFirstname() || displayLastname() -->
+        <div><strong data-bind="text: (displayFirstname() || '') + ' ' + (displayLastname() || '')"></strong></div>
+        <!-- /ko -->
+        <!-- ko if: displayCity() -->
+        <div data-bind="text: displayCity()"></div>
+        <!-- /ko -->
+        <!-- ko if: displayTelephone() -->
+        <div data-bind="text: displayTelephone()"></div>
+        <!-- /ko -->
+    </div>
+</div>

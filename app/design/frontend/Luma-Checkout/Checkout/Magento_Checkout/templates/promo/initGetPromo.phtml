@@ -1,0 +1,127 @@
+<?php
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+<script>
+    const promoCodes = [
+        {
+            code: 'SAVE10',
+            SALE: 10
+        },
+        {
+            code: 'SAVE20',
+            SALE: 20
+        },
+        {
+            code: 'HALFOFF',
+            SALE: 50
+        },
+        {
+            code: 'SPRING15',
+            SALE: 10
+        },
+        {
+            code: 'VIP30',
+            SALE: 20
+        }
+    ];
+    window.initGetPromo = function () {
+        return {
+            cartData: null,
+            promocode: '',
+            discountPromo: 0,
+            subtotal: 0,
+            subtotalWithDiscount: 0,
+            totalDiscount: 0,
+            quantityProduct: 0,
+            discountMoreThreeProduct: 0,
+            discountMore200: 0,
+            errorMessage: '',
+            appliedPromoCode: '',
+
+            init() {
+                this.getCartData();
+
+                const savedPromo = localStorage.getItem('appliedPromoCode');
+                if (savedPromo) {
+                    this.appliedPromoCode = savedPromo;
+                }
+
+                addEventListener('hyva:sections-loaded', () => {
+                    this.handleSectionDataUpdate();
+                });
+
+                addEventListener('private-content-loaded', (event) => {
+                    this.subtotal = event.detail.data.cart.subtotalAmount ?? 0;
+                    this.quantityProduct = event.detail.data.cart.items?.length ?? 0;
+                    if (this.appliedPromoCode) {
+                        this.recalculateFromSaved();
+                    }
+                });
+
+                window.addEventListener('save-promo-code', (event) => {
+                    this.promocode = event.detail.promocode;
+                    this.applyCode();
+                });
+            },
+            getCartData() {
+                if (window.hyva?.getSectionData) {
+                    const data = window.hyva.getSectionData();
+                    if (data?.cart) {
+                        this.subtotal = data.cart.subtotalAmount ?? 0;
+                        this.quantityProduct = data.cart.items?.length ?? 0;
+                    }
+                }
+            },
+
+            handleSectionDataUpdate() {
+                this.getCartData();
+                if (this.appliedPromoCode) {
+                    this.recalculateFromSaved();
+                }
+            },
+
+            recalculateFromSaved() {
+                const isSale = promoCodes.find(item => item.code === this.appliedPromoCode);
+                if (!isSale) return;
+
+                this.discountPromo = this.subtotal * isSale.SALE / 100;
+                this.discountMoreThreeProduct = this.quantityProduct > 3 ? this.subtotal * 0.05 : 0;
+                this.discountMore200 = this.subtotal > 200 ? this.subtotal * 0.10 : 0;
+                this.totalDiscount = Math.round(this.discountPromo + this.discountMoreThreeProduct + this.discountMore200);
+                this.subtotalWithDiscount = Math.round(this.subtotal - this.totalDiscount);
+            },
+
+            applyCode() {
+                if (!this.promocode?.trim()) {
+                    this.errorMessage = "<?= $escaper->escapeJs(__('Please enter a promo code')) ?>";
+                    this.$dispatch('discount:error', {message: this.errorMessage});
+                    return;
+                }
+                this.calculateDiscount();
+            },
+
+            calculateDiscount() {
+                const isSale = promoCodes.find(item => item.code === this.promocode);
+                if (!isSale) {
+                    this.errorMessage = "<?= $escaper->escapeJs(__('Promo code not found')) ?>";
+                    this.$dispatch('discount:error', {code: this.promocode});
+                    return;
+                }
+
+                this.errorMessage = '';
+                this.appliedPromoCode = this.promocode;
+                this.recalculateFromSaved();
+
+                this.$dispatch('discount:applied', {
+                    code: this.appliedPromoCode,
+                    discount: this.totalDiscount,
+                    newTotal: this.subtotalWithDiscount
+                });
+
+                localStorage.setItem('appliedPromoCode', this.appliedPromoCode);
+                this.promocode = '';
+                this.$dispatch('close-modal', {dialog: 'modal12'});
+            }
+        }
+    }
+</script>

@@ -1,0 +1,125 @@
+<script>
+    function getAppSectionData() {
+        const data = window.hyva?.getSectionData?.() || {}
+
+        return {
+            ...data,
+            cart: data.cart || {subtotalAmount: 0},
+            delivery: data.delivery || {
+                base_by_day: {
+                    weekday: 10,
+                    saturday: 15,
+                    sunday: 20
+                },
+                options: {
+                    standard: 0,
+                    express: 10,
+                    pickup: 0
+                },
+                rules: {
+                    free_shipping_threshold: 150,
+                    tomorrow_extra: 5
+                }
+            }
+        }
+    }
+
+    window.initGetDelivery = function () {
+        return {
+            date: "",
+            optionDelivery: "standard",
+            subtotal: 0,
+            shipping: "",
+            shippingSum: 0,
+            open: false,
+            deliveryData: null,
+
+            init() {
+                this.deliveryData = getAppSectionData();
+
+                window.addEventListener('hyva:sections-loaded', (event) => {
+                    this.deliveryData = getAppSectionData();
+                    this.recalculateShipping();
+                });
+
+                addEventListener('private-content-loaded', (event) => {
+                    this.subtotal = event.detail.data?.cart?.subtotalAmount || 0;
+                    this.recalculateShipping();
+                })
+
+                window.addEventListener('delivery-date-selected', (event) => {
+                    this.date = event.detail.date;
+                    this.recalculateShipping();
+                });
+
+                window.addEventListener('delivery-date-reset', (event) => {
+                    this.date = "";
+                    this.shipping = "";
+                    this.open = false;
+                    this.recalculateShipping();
+                });
+
+                window.addEventListener('delivery-option-selected', (event) => {
+                    this.optionDelivery = event.detail.optionDelivery;
+                    this.shipping = event.detail.shipping;
+
+                    if (this.optionDelivery !== "express") {
+                        this.open = false;
+                    } else {
+                        this.open = true;
+                    }
+
+                    if (this.shipping === "today") {
+                        this.date = new Date().toISOString().split('T')[0];
+                        this.$dispatch('delivery-date-selected', {date: this.date});
+                    } else if (this.shipping === "tomorrow") {
+                        const tomorrow = new Date();
+                        tomorrow.setDate(tomorrow.getDate() + 1);
+                        this.date = tomorrow.toISOString().split('T')[0];
+                        this.$dispatch('delivery-date-selected', {date: this.date});
+                    }
+
+                    this.recalculateShipping();
+                });
+            },
+
+
+            recalculateShipping() {
+                if (!this.deliveryData) return;
+                if (this.optionDelivery === "pickup") {
+                    this.shippingSum = 0;
+                    return;
+                }
+
+                let total = 0;
+                const delivery = this.deliveryData.delivery;
+                total += delivery.options[this.optionDelivery] || 0;
+
+                if (this.date) {
+                    const dateObj = new Date(this.date);
+                    const dayOfWeek = dateObj.getDay();
+
+                    if (dayOfWeek === 0) {
+                        total += delivery.base_by_day.sunday;
+                    } else if (dayOfWeek === 6) {
+                        total += delivery.base_by_day.saturday;
+                    } else {
+                        total += delivery.base_by_day.weekday;
+                    }
+
+                    if (this.shipping === "tomorrow" && this.optionDelivery === "express") {
+                        total += delivery.rules.tomorrow_extra;
+                    }
+                }
+
+                if (this.optionDelivery !== "express" &&
+                    this.subtotal >= delivery.rules.free_shipping_threshold) {
+                    total = 0;
+                }
+
+                this.shippingSum = total;
+            }
+        }
+    }
+
+</script>
