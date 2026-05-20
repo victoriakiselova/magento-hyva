@@ -11,6 +11,8 @@
         <referenceContainer name="content">
 
             <container name="delivery-data" htmlTag="div" htmlClass="p-5 bg-gray-100 rounded mb-5 rounded-lg">
+                <block class="Magento\Framework\View\Element\Template" name="shipping-init-js"
+                       template="Magento_Checkout::cart/initShippingEstimator.phtml"/>
                 <block class="Magento\Framework\View\Element\Template" name="js.shipping" as="shipping-js"
                        template="Magento_Checkout::delivery/initGetDeliveryData.phtml"/>
                 <block class="Magento\Framework\View\Element\Template" name="date-picker"
@@ -19,6 +21,13 @@
                        template="Magento_Checkout::delivery/delivery-options.phtml"/>
                 <block class="Magento\Framework\View\Element\Template" name="custom-shipping"
                        template="Magento_Checkout::delivery/shipping-summary.phtml"/>
+                <block
+                    class="Magento\Framework\View\Element\Template"
+                    name="custom-shipping-estimator"
+                    template="Magento_Checkout::cart/shipping-estimator.phtml"
+                />
+
+
             </container>
 
             <block class="Magento\Checkout\Block\Cart" name="checkout.cart" template="Magento_Checkout::cart.phtml"

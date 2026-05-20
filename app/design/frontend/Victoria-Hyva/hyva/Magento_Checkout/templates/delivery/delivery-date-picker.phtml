@@ -1,8 +1,8 @@
 <?php /** @var \Magento\Framework\Escaper $escaper */
 ?>
 
-<div x-data="initGetDelivery()" x-init="init()" class="p-4">
-    <input type="date" x-model="date" class="mr-3"
+<div x-data="initGetDelivery()" x-init="init()">
+    <input type="date" x-model="date" class="mr-3 mb-3 md:mb-0"
            :disabled="optionDelivery === 'pickup' || optionDelivery === 'express'"
            @change="$dispatch('delivery-date-selected', {
         date: $event.target.value

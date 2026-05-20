@@ -19,6 +19,12 @@
                        template="Magento_Checkout::delivery/delivery-options.phtml"/>
                 <block class="Magento\Framework\View\Element\Template" name="custom-shipping"
                        template="Magento_Checkout::delivery/shipping-summary.phtml"/>
+
+                <block
+                    class="Magento\Framework\View\Element\Template"
+                    name="custom-shipping-estimator"
+                    template="Magento_Checkout::cart/test.phtml"
+                />
             </container>
 
             <block class="Magento\Checkout\Block\Cart" name="checkout.cart" template="Magento_Checkout::cart.phtml"
@@ -333,5 +339,6 @@
         </referenceContainer>
         <block class="Magento\Checkout\Block\Cart\Additional\Info" name="additional.product.info"
                template="Magento_Checkout::cart/additional/info.phtml"/>
+
     </body>
 </page>

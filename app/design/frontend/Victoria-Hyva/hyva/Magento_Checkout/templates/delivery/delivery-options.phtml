@@ -1,6 +1,6 @@
 <?php /** @var \Magento\Framework\Escaper $escaper */ ?>
 
-<div x-data="initGetDelivery()" x-init="init()" class="p-4 flex flex-col gap-3">
+<div x-data="initGetDelivery()" x-init="init()" class="flex flex-col gap-3">
     <label for="standard" class="text-gray-800 text-md leading-normal">Standard
         <input type="radio" name="delivery" value="standard" x-model="optionDelivery" class="checked:bg-blue-600"
                @change="shipping = ''; $dispatch('delivery-option-selected', {

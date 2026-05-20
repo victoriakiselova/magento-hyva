@@ -1,0 +1,82 @@
+<script>
+    window.initShippingEstimator = function () {
+        return {
+            country: '',
+            zip: '',
+            sectionData: null,
+            isOpenModal: false,
+            priceWithCountry: 0,
+            priceByZip: 0,
+            price: 0,
+            datasetZip: null,
+            init() {
+                this.prefillFromSectionData();
+                if (!this.sectionData) {
+                    addEventListener('private-content-loaded', (event) => {
+                        this.sectionData = event.detail?.data['directory-data'];
+                        this.mapCountry();
+                    })
+                }
+
+                window.addEventListener('get-shipping-country', (event) => {
+                    this.country = event.detail.country;
+                    this.zip = event.detail.zip;
+                    this.getBasePrice();
+                });
+
+                window.addEventListener('reset-shipping-form', () => {
+                    this.resetForm();
+                })
+            },
+
+            prefillFromSectionData() {
+                window.addEventListener('hyva:sections-loaded', (event) => {
+                    const addresses = event.detail?.data?.customer?.addresses;
+                    this.sectionData = addresses;
+                    if (addresses?.length) {
+                        this.country = addresses[0]?.country || '';
+                        this.zip = addresses[0]?.postcode || '';
+                        this.getBasePrice();
+                    }
+                });
+            },
+
+            mapCountry() {
+                if (!this.sectionData) return;
+                const countriesES = [
+                    'AT', 'BE', 'BG', 'CY', 'CZ',
+                    'DE', 'DK', 'EE', 'ES', 'FI',
+                    'FR', 'GR', 'HR', 'HU', 'IE',
+                    'IT', 'LT', 'LU', 'LV', 'MT',
+                    'NL', 'PL', 'PT', 'RO', 'SE',
+                    'SI'
+                ];
+                if (this.country === 'RO') {
+                    this.priceWithCountry = 10;
+                } else if (countriesES.includes(this.country)) {
+                    this.priceWithCountry = 20;
+                } else {
+                    this.priceWithCountry = 35;
+                }
+
+                this.getBasePrice();
+            },
+
+            resetForm() {
+                this.country = '';
+                this.zip = '';
+                this.price = 0;
+            },
+
+            getBasePrice() {
+                if (String(this.zip).length >= 5) {
+                    this.priceByZip = String(this.zip).startsWith('0') ? 5 : 0;
+                }
+
+                this.price = this.priceWithCountry + this.priceByZip;
+                return this.price;
+            }
+        };
+    }
+</script>
+
