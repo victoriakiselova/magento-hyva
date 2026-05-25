@@ -4,7 +4,6 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <update handle="catalog_list_item"/>
     <body>
-
         <referenceContainer name="main.content">
             <block name="promo"
                    template="Magento_Catalog::product/view/custom-promo.phtml" before="-">
@@ -84,11 +83,6 @@
                     <argument name="show_attributes" xsi:type="string">name,image,price,learn_more</argument>
                 </arguments>
             </block>
-            <block
-                name="catalog.compare.sidebar"
-                template="Magento_Catalog::product/compare/sidebar.phtml"
-                ifconfig="catalog/frontend/show_sidebar_in_list"
-            />
         </referenceContainer>
     </body>
 </page>

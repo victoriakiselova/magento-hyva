@@ -26,8 +26,6 @@
                     name="custom-shipping-estimator"
                     template="Magento_Checkout::cart/shipping-estimator.phtml"
                 />
-
-
             </container>
 
             <block class="Magento\Checkout\Block\Cart" name="checkout.cart" template="Magento_Checkout::cart.phtml"

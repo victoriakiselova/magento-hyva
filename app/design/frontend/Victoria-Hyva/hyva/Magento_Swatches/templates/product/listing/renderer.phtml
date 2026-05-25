@@ -85,7 +85,6 @@ $swatchItemBlock->setData('product_id', $productId);
                             }
                         ).then(data => {
                             if (data.errors) {
-                                // non critical failure only console logged
                                 console.warn(data.errors);
                             } else {
                                 data && window.dispatchEvent(

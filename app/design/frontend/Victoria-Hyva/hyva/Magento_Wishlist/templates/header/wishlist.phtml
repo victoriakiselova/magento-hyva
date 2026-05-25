@@ -34,16 +34,12 @@ $lucideIcons = $viewModels->require(LucideIcons::class);
             itemCount: 0,
 
             init() {
-                // Підписуємося на події Hyvä
                 window.addEventListener('hyva:sections-loaded', () => {
                     this.updateCount();
                 });
-
-                // Слухаємо зміни wishlist
                 window.addEventListener('wishlist-updated', () => {
                     setTimeout(() => this.updateCount(), 100);
                 });
-
                 this.updateCount();
             },
 
@@ -61,7 +57,7 @@ $lucideIcons = $viewModels->require(LucideIcons::class);
 
     window.addEventListener('alpine:init', () => {
         Alpine.data('initWishlistHeader', initWishlistHeader);
-    }, { once: true });
+    }, {once: true});
 </script>
 <?php $hyvaCsp->registerInlineScript() ?>
 

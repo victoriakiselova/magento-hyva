@@ -109,8 +109,6 @@ $productType = $product->getTypeId();
             <?= $block->getChildHtml("product.info.price") ?>
         </div>
 
-
-
         <div class="flex gap-2 mt-4 ml-auto sm:mt-0">
             <?php if ($product->isSaleable()): ?>
                 <?= $block->getChildHtml("product.info.quantity") ?>
@@ -125,7 +123,6 @@ $productType = $product->getTypeId();
             <?= $block->getChildHtml('addtocart.shortcut.buttons') ?>
         </div>
     <?php endif; ?>
-
 
 
     <?php if ($tierPriceBlock = $block->getChildHtml("product.price.tier")): ?>
