@@ -1,0 +1,41 @@
+<?php
+/** @var \Hyva\Theme\ViewModel\Modal $modalViewModel */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \Hyva\Theme\Model\ViewModelRegistry $viewModels */
+
+$modalViewModel = $viewModels->require(\Hyva\Theme\ViewModel\Modal::class);
+$priceShipping = __('Estimated shipping: $');
+?>
+
+<div x-data="hyvaModal" class="relative">
+    <button
+        @click="show('modal13')"
+        type="button"
+        class="btn bg-blue-600 text-white text-sm mb-3 hover:bg-blue-400"
+        aria-haspopup="dialog"
+    >
+        <?= $escaper->escapeHtml(__('Estimate Shipping')) ?>
+    </button>
+    <?= $modalViewModel->createModal()
+        ->withDialogRefName('modal13')
+        ->withContent('<div x-data="initShippingEstimator()" x-init="init()" class="flex flex-col gap-3 pt-7">
+   <button @click="$dispatch(\'reset-shipping-form\'); hide();" type="button" class="ml-auto text-gray-600 hover:text-gray-900 text-3xl font-bold leading-none w-8 h-8 flex items-center justify-center z-50 cursor-pointer">×</button>
+
+   <select x-model="country" @change="mapCountry()" >
+     <template x-for="[code, data] in Object.entries(sectionData || {})" >
+        <option :value="code" x-text="data.name"></option>
+     </template>
+   </select>
+
+   <input type="number"
+           x-model="zip"
+           @input.debounce.300ms="getBasePrice()" />
+
+   <p x-text=\'' . json_encode($priceShipping) . ' + price\'></p>
+
+   </div>')
+        ->positionCenter()
+        ->withAriaLabelledby('the-label')
+        ->addDialogClass('rounded', 'bg-white')
+    ?>
+   </div>

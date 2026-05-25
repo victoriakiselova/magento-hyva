@@ -1,0 +1,34 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+/** @var Magento\Catalog\Model\Product $product */
+
+/** @var $block Magento\Catalog\Block\Product\ProductList\Item\AddTo\Compare */
+
+use Magento\Framework\Registry;
+use Hyva\Theme\ViewModel\LucideIcons;
+
+/** @var LucideIcons $lucideIcons */
+$lucideIcons = $viewModels->require(LucideIcons::class);
+/** @var Registry $registry */
+$registry = \Magento\Framework\App\ObjectManager::getInstance()
+    ->get(Registry::class);
+
+$product = $registry->registry('current_product');
+$productName = $product->getName();
+$productId = (int)$product->getId();
+?>
+<button x-data="initCompareOnProductList()"
+        @click.prevent="$store.compare.add(<?= (int)$productId ?>, addToCompare)"
+        aria-label="<?= $escaper->escapeHtmlAttr(__('Add to Compare') . ' ' . $productName) ?>"
+        type="button"
+        class="btn p-2 rounded-full hover:text-red-400"
+        :class="$store.compare.has(<?= (int)$productId ?>)
+    ? 'border-[1px] border-red-400' : 'border-transparent'" data-addto="compare"
+>
+    <?= $lucideIcons->scaleHtml("", 20, 20, ['aria-hidden' => 'true']) ?>
+</button>

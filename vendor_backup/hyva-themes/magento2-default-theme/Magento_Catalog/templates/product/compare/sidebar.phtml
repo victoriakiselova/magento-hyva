@@ -21,7 +21,7 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
 ?>
 
 <script>
-function compareSidebarFetchHandler(postUrl, postHeaders, isSingleItem = true) {
+window.compareSidebarFetchHandler = function (postUrl, postHeaders, isSingleItem = true) {
     const messages = {
         "success": isSingleItem
             ? "<?= $escaper->escapeHtml(__("You removed product %1 from the comparison list", __("Product"))) ?>"
@@ -91,7 +91,7 @@ function initCompareOnCompareSidebar() {
     }
 }
 
-function initCompareSidebarClear() {
+window.initCompareSidebarClear = function () {
     return {
         clearCompare: function() {
             const formKey = hyva.getFormKey();

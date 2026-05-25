@@ -4,7 +4,7 @@ $date = $escaper->escapeJs(__('Date: '));
 $shipping = $escaper->escapeJs(__('Shipping: '));
 ?>
 
-<div x-data="initGetDelivery()">
+<div x-data="initGetDelivery()" class="mb-4">
     <p x-text="'<?= $delivery ?>' + (optionDelivery || '')"></p>
     <p x-text="'<?= $date ?>' + (date || '')"></p>
     <p x-text="'<?= $shipping ?>' + (shippingSum || 0)"></p>

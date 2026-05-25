@@ -56,3 +56,10 @@ yarn.lock
 # Misc
 *.swp
 *.swo
+auth.json
+/app/etc/config.php.lock
+/var/.htaccess
+/composer.lock
+
+/docker-compose.override.yml
+/.docker/

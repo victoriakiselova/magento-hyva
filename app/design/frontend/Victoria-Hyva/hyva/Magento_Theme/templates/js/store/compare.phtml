@@ -1,0 +1,56 @@
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.store('compare', {
+            items: [],
+            init() {
+                window.addEventListener('private-content-loaded', (event) => {
+                    const items = event.detail.data['compare-products']?.items || [];
+                    this.items = items.map(item => ({
+                        id: Number(item.id)
+                    }));
+                });
+            },
+            add(id, addToCompare) {
+                if (!this.has(id)) {
+                    addToCompare(id);
+                    this.items.push({ id: Number(id) });
+                }
+            },
+            has(id) {
+                return this.items.some(
+                    item => Number(item.id) === Number(id));
+            },
+            remove(productId, productName, removeFromCompare) {
+                removeFromCompare(productId, productName);
+                this.items = this.items.filter((item) => Number(item.id) !== Number(productId));
+            },
+            clear() {
+                if (!window.confirm("Are you sure you want to remove all items from your Compare Products list?")) {
+                    return;
+                }
+
+                const postUrl = BASE_URL + 'catalog/product_compare/clear/';
+                const formKey = hyva.getFormKey();
+                const uenc = hyva.getUenc();
+
+                fetch(postUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                    },
+                    body: "form_key=" + formKey + "&uenc=" + uenc
+                })
+                    .then(response => {
+                        this.items = [];
+                        window.dispatchEvent(new CustomEvent("reload-customer-section-data"));
+                        window.location.reload();
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+        });
+
+        Alpine.store('compare').init();
+    });
+</script>
