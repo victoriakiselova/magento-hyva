@@ -1,7 +1,8 @@
-<script>
-    document.addEventListener('alpine:init', () => {
+<script>document.addEventListener('alpine:init', () => {
+
         Alpine.store('compare', {
             items: [],
+
             init() {
                 window.addEventListener('private-content-loaded', (event) => {
                     const items = event.detail.data['compare-products']?.items || [];
@@ -10,24 +11,30 @@
                     }));
                 });
             },
+
             add(id, addToCompare) {
                 if (!this.has(id)) {
                     addToCompare(id);
-                    this.items.push({ id: Number(id) });
+                    this.items.push({id: Number(id)});
                 }
             },
+
             has(id) {
                 return this.items.some(
-                    item => Number(item.id) === Number(id));
+                    item => Number(item.id) === Number(id)
+                );
             },
+
             remove(productId, productName, removeFromCompare) {
                 removeFromCompare(productId, productName);
-                this.items = this.items.filter((item) => Number(item.id) !== Number(productId));
+
+                this.items = this.items.filter(
+                    item => Number(item.id) !== Number(productId)
+                );
             },
+
             clear() {
-                if (!window.confirm("Are you sure you want to remove all items from your Compare Products list?")) {
-                    return;
-                }
+                if (!window.confirm("Are you sure?")) return;
 
                 const postUrl = BASE_URL + 'catalog/product_compare/clear/';
                 const formKey = hyva.getFormKey();
@@ -40,17 +47,53 @@
                     },
                     body: "form_key=" + formKey + "&uenc=" + uenc
                 })
-                    .then(response => {
+                    .then(() => {
                         this.items = [];
                         window.dispatchEvent(new CustomEvent("reload-customer-section-data"));
                         window.location.reload();
-                    })
-                    .catch(error => {
-                        console.error(error);
                     });
             }
         });
 
+        Alpine.store('toast', {
+            listItems: [],
+            itemsToast: [],
+
+            init() {
+                window.addEventListener('messages-loaded', (event) => {
+                    this.listItems.push(...event.detail.messages);
+                    this.success();
+
+                });
+            },
+            success() {
+                this.listItems.forEach((msg) => {
+                    const exists = this.itemsToast.some(
+                        item => item.text === msg.text
+                    );
+
+                    if (exists) return;
+
+                    const toast = {
+                        id: crypto.randomUUID(),
+                        ...msg
+                    };
+
+                    this.itemsToast.push(toast);
+                    setTimeout(() => {
+                        this.remove(toast.id);
+                    }, 5000);
+                });
+            },
+
+            remove(id) {
+                this.itemsToast = this.itemsToast.filter(
+                    item => item.id !== id
+                );
+            }
+        });
+
         Alpine.store('compare').init();
+        Alpine.store('toast').init();
     });
 </script>
