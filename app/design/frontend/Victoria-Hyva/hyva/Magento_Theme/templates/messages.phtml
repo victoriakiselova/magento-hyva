@@ -1,0 +1,56 @@
+<?php
+/**
+ * Hyvä Themes - https://hyva.io
+ * Copyright © Hyvä Themes. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+use Hyva\Theme\ViewModel\HyvaCsp;
+use Hyva\Theme\ViewModel\StoreConfig;
+use Magento\Framework\Escaper;
+
+/** @var Escaper $escaper */
+/** @var HyvaCsp $hyvaCsp */
+/** @var ViewModelRegistry $viewModels */
+/** @var HeroiconsOutline $heroicons */
+/** @var StoreConfig $storeConfig */
+$heroicons = $viewModels->require(HeroiconsOutline::class);
+$storeConfig = $viewModels->require(StoreConfig::class);
+
+$defaultSuccessMessageTimeout = $storeConfig->getStoreConfig('hyva_theme_general/messages/success_message_timeout');
+
+?>
+<script>
+    <?php if ($defaultSuccessMessageTimeout): ?>
+    window.defaultSuccessMessageTimeout = <?= (int)$defaultSuccessMessageTimeout ?>;
+    <?php endif; ?>
+
+</script>
+
+<?php $hyvaCsp->registerInlineScript() ?>
+<section id="messages" x-data
+         role="alert">
+    <div class="w-full">
+        <div class="messages container mx-auto py-3">
+            <template x-for="(mes, index) in ($store.toast?.itemsToast || [])" :key="index">
+                <div class="message" class="{
+        'border-red-400 bg-red-100': mes.type === 'error',
+        'border-green-400 bg-green-100': mes.type === 'success',
+        'border-blue-400 bg-blue-100': mes.type === 'notice'
+    }">
+                    <span x-html="mes.text"></span>
+                    <button
+                        type="button"
+                        class="text-gray-600 hover:text-black"
+                        aria-label="<?= $escaper->escapeHtml(__('Close message')) ?>">
+                        <?= $heroicons->xHtml('stroke-current', 18, 18, ['aria-hidden' => 'true']); ?>
+                    </button>
+                </div>
+            </template>
+        </div>
+    </div>
+</section>
