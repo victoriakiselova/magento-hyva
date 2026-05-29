@@ -27,16 +27,14 @@ $lucideIcons = $viewModels->require(LucideIcons::class);
 $storeConfig = $viewModels->require(StoreConfig::class);
 $showMiniCart = $storeConfig->getStoreConfig(SidebarCart::XML_PATH_CHECKOUT_SIDEBAR_DISPLAY);
 
-$showCompare = $block->getShowCompare() !== null ? (bool) $block->getShowCompare() : true;
-$showWishlist = $block->getShowWishlist() !== null ? (bool) $block->getShowWishlist() : false;
+$showCompare = $block->getShowCompare() !== null ? (bool)$block->getShowCompare() : true;
+$showWishlist = $block->getShowWishlist() !== null ? (bool)$block->getShowWishlist() : false;
 ?>
 
 <script>
     function initHeader() {
         return {
-            searchOpen: false,
             cart: {},
-            isCartOpen: false,
             getData(data) {
                 this.cart = data.cart ?? {};
             },
@@ -54,25 +52,6 @@ $showWishlist = $block->getShowWishlist() !== null ? (bool) $block->getShowWishl
             isCartEmpty() {
                 return !this.cart.summary_count;
             },
-            toggleCart() {
-                this.isCartOpen = this.$event.detail?.isOpen ?? true;
-                this.$dispatch('toggle-cart', { isOpen: this.isCartOpen })
-            },
-            toggleSearch() {
-                this.searchOpen = !this.searchOpen;
-                this.$dispatch('search-open');
-            },
-            toggleSearchOpen() {
-                this.searchOpen = true;
-                this.$dispatch('search-open');
-            },
-            searchClose() {
-                this.searchOpen = false;
-                this.$refs.searchButton.focus();
-            },
-            searchEscape() {
-                this.searchClose();
-            },
             isMac: /Mac|iPod|iPhone|iPad/.test(navigator.platform),
             textShortcutModifier() {
                 return this.isMac ? '⌘ K' : 'Ctrl+K';
@@ -89,22 +68,19 @@ $showWishlist = $block->getShowWishlist() !== null ? (bool) $block->getShowWishl
 
     window.addEventListener('alpine:init', () => {
         Alpine.data('initHeader', initHeader);
-    }, { once: true })
+    }, {once: true})
 </script>
 <?php $hyvaCsp->registerInlineScript() ?>
 
 <div id="header"
      class="relative z-30 w-full border-b shadow bg-white border-gray-100"
-     x-data="initHeader()"
-     @private-content-loaded.window="getData(event.detail.data)"
->
+     x-data="initHeader()">
+
     <div class="container flex flex-wrap lg:flex-nowrap items-center justify-between w-full px-6 py-3 mx-auto mt-0">
-        <!--Logo-->
         <div class="sm:order-1 lg:order-0 w-full pb-2 sm:w-auto sm:pb-0">
             <?= $block->getChildHtml('logo'); ?>
         </div>
 
-        <!--Main Navigation-->
         <?= $block->getChildHtml('topmenu') ?>
 
         <div class="flex items-center gap-2 md:gap-1 order-1 lg:order-0 md:-mr-1">
@@ -117,24 +93,17 @@ $showWishlist = $block->getShowWishlist() !== null ? (bool) $block->getShowWishl
             <button
                 id="menu-search-icon"
                 class="btn bg-transparent border-transparent p-1"
-                @click.prevent="toggleSearch"
+                @click="$store.drawer.open('search')"
                 @keydown.window="searchShortcut"
                 aria-label="<?= $escaper->escapeHtmlAttr(__('Toggle search form')) ?>"
                 aria-haspopup="true"
-                :aria-expanded="searchOpen"
-                :aria-keyshortcuts="textShortcutModifier"
                 x-ref="searchButton"
             >
                 <?= $lucideIcons->searchHtml('', 24, 24, ["aria-hidden" => "true"]) ?>
             </button>
 
-
-
             <?= $block->getChildHtml('additional') ?>
-
             <?= $block->getChildHtml('customer') ?>
-
-
 
             <?php if ($showMiniCart): ?>
                 <button
@@ -145,10 +114,9 @@ $showWishlist = $block->getShowWishlist() !== null ? (bool) $block->getShowWishl
                 type="button"
                 class="relative btn bg-transparent border-transparent p-1"
                 x-ref="cartButton"
-                :aria-label="cartAriaLabel"
+
                 <?php if ($showMiniCart): ?>
-                    @click="toggleCart"
-                    :aria-expanded="isCartOpen"
+                    @click="$store.drawer.open('minicart')"
                     aria-haspopup="dialog"
                 <?php else: ?>
                     href="<?= $escaper->escapeUrl($block->getUrl('checkout/cart/index')) ?>"
@@ -178,8 +146,7 @@ $showWishlist = $block->getShowWishlist() !== null ? (bool) $block->getShowWishl
         id="search-content"
         class="absolute z-10 w-full border-t shadow-sm bg-white border-gray-100"
         x-cloak
-        x-show="searchOpen"
-        @click.outside="searchClose"
+        x-show="$store.drawer.active === 'search'"
         @keydown.escape="searchEscape"
     >
         <?= $block->getChildHtml('header-search'); ?>

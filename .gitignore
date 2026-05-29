@@ -63,3 +63,4 @@ auth.json
 
 /docker-compose.override.yml
 /.docker/
+.php-cs-fixer.cache
