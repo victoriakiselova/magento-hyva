@@ -31,7 +31,6 @@ $miniCartOptionShowSku = $block->getShowSku() !== null ? (bool)$block->getShowSk
 <script>
     function initCartDrawer() {
         return {
-            open: false,
             isLoading: false,
             cart: {},
             maxItemsToDisplay: <?= (int)$maxItemsToDisplay ?>,
@@ -105,15 +104,6 @@ $miniCartOptionShowSku = $block->getShowSku() !== null ? (bool)$block->getShowSk
                     this.isLoading = false
                 });
             },
-            toggleCartDrawer(event) {
-                this.open = event.detail?.isOpen ?? !this.open;
-            },
-            openCartDrawer() {
-                this.open = true;
-            },
-            closeCartDrawer() {
-                this.open = false;
-            },
             getSectionDataExtraActions() {
                 if (!this.cart.extra_actions) {
                     return '';
@@ -139,7 +129,7 @@ $miniCartOptionShowSku = $block->getShowSku() !== null ? (bool)$block->getShowSk
                 return hyva.strf(this.$el.dataset.ariaLabel, this.item.product_name)
             },
             proceedToCheckout() {
-                this.closeCartDrawer()
+                Alpine.store('drawer').close()
 
                 this.$dispatch(
                     'toggle-authentication',
@@ -160,9 +150,6 @@ $miniCartOptionShowSku = $block->getShowSku() !== null ? (bool)$block->getShowSk
                 ['@private-content-loaded.window'](event) {
                     this.getData(event.detail.data);
                 },
-                ['@toggle-cart.window'](event) {
-                    this.toggleCartDrawer(event);
-                },
                 ['@minicart-error-message.window'](event) {
                     if (!event.detail) return;
                     const {itemId, message} = event.detail;
@@ -170,7 +157,6 @@ $miniCartOptionShowSku = $block->getShowSku() !== null ? (bool)$block->getShowSk
                 },
                 ["@pageshow.window"](event) {
                     if (event.persisted) {
-                        this.open = false;
                         window.dispatchEvent(new CustomEvent("reload-customer-section-data"));
                     }
                 }
@@ -246,11 +232,9 @@ $miniCartOptionShowSku = $block->getShowSku() !== null ? (bool)$block->getShowSk
 <dialog
     id="cart-drawer"
     aria-labelledby="cart-drawer-title"
-    class="w-[480px] md:w-[640px] h-full max-h-full me-0 open:flex flex-col transition ease-out duration-300 motion-reduce:duration-0 rounded-e-none"
+    class=" fixed top-0 right-0 w-[480px] md:w-[640px] h-full max-h-full me-0 flex flex-col transition ease-out duration-300 motion-reduce:duration-0 rounded-e-none"
     x-data="initCartDrawer"
-    x-bind="cartListeners"
-    x-show="open"
-    x-htmldialog="closeCartDrawer"
+    x-show="$store.drawer.active === 'minicart'"
     closeby="any"
     x-transition:enter="transition ease-in-out duration-500"
     x-transition:enter-start="translate-x-full"
@@ -273,7 +257,7 @@ $miniCartOptionShowSku = $block->getShowSku() !== null ? (bool)$block->getShowSk
         <button
             type="button"
             class="btn bg-transparent border-transparent p-2"
-            @click="closeCartDrawer"
+            @click="$store.drawer.close()"
             aria-label="<?= $escaper->escapeHtmlAttr(__('Close minicart')) ?>"
         >
             <?= $lucideIcons->xHtml('', 24, 24, ['aria-hidden' => 'true']); ?>
@@ -281,10 +265,8 @@ $miniCartOptionShowSku = $block->getShowSku() !== null ? (bool)$block->getShowSk
     </div>
 
     <p class="text-xl  text-gray-500 leading-tight tracking-wide p-2 text-center"
-       x-text="'<?= $escaper->escapeJs(__('Spend %1 more to get free shipping')) ?>'
-        .replace('%1', remaining + '$')">
+       x-text="'<?= $escaper->escapeJs(__('Spend %1 more to get free shipping')) ?>'.replace('%1', remaining + '$')">
     </p>
-
 
     <?= $block->getChildHtml('cart-drawer.items.before'); ?>
 

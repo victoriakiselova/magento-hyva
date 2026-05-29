@@ -2,7 +2,6 @@
 
         Alpine.store('compare', {
             items: [],
-
             init() {
                 window.addEventListener('private-content-loaded', (event) => {
                     const items = event.detail.data['compare-products']?.items || [];
@@ -93,7 +92,38 @@
             }
         });
 
+        Alpine.store('drawer', {
+            isVisibleFilters: false,
+            isActiveId: null,
+            active: null,
+            isMobile: false,
+            isSubMenuOpen: false,
+            isOverflowing: false,
+            init() {
+                const mediaQuery = window.matchMedia('(max-width: 767px)');
+                this.isMobile = mediaQuery.matches;
+
+                mediaQuery.addEventListener('change', (event) => {
+                    this.isMobile = event.matches;
+                    console.log(this.isMobile);
+                });
+            },
+            open(name, id) {
+                this.active = name;
+                if (name === 'filterItems') {
+                    this.isVisibleFilters = true;
+                }
+                if (id) {
+                    this.isActiveId = id;
+                }
+            },
+            close() {
+                this.active = null;
+            },
+        })
+
         Alpine.store('compare').init();
         Alpine.store('toast').init();
+        Alpine.store('drawer').init();
     });
 </script>
