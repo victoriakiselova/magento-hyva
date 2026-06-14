@@ -20,6 +20,47 @@ if (!$product->getId() || !$wishlistViewModel->isEnabled()) {
     return;
 }
 ?>
+<script>
+    function initWishlist(productId) {
+        return {
+            productId: productId,
+            isLoading: false,
+            isActive: false,
+            init() {
+                window.addEventListener('private-content-loaded', (event) => {
+                    const wishlistData = event.detail.data.wishlist;
+                    if (wishlistData && wishlistData.items) {
+                        this.isActive = wishlistData.items.some(
+                            item => parseInt(item.product_id) === parseInt(this.productId)
+                        );
+                    }
+                });
+            },
+            toggleWishlist() {
+                this.isLoading = true;
+                const postUrl = BASE_URL + 'wishlist/index/add/';
+                fetch(postUrl, {
+                    headers: {'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+                    body: 'form_key=' + hyva.getFormKey() + '&product=' + this.productId + '&uenc=' + hyva.getUenc(),
+                    method: 'POST', mode: 'cors', credentials: 'include'
+                }).then(r => {
+                    this.isLoading = false;
+                    if (r.redirected) { window.location.href = r.url; return; }
+                    return r.ok ? r.json() : null;
+                }).then(r => {
+                    if (!r) return;
+                    this.isActive = r.success ? !this.isActive : this.isActive;
+                    typeof window.dispatchMessages !== 'undefined' && window.dispatchMessages(
+                        [{type: r.success ? 'success' : 'error', text: r.success
+                            ? '<?= $escaper->escapeJs(__("%1 has been added to your Wish List.", __("Product"))) ?>'
+                            : r.error_message}], 5000
+                    );
+                    window.dispatchEvent(new CustomEvent('reload-customer-section-data'));
+                }).catch(() => { this.isLoading = false; });
+            }
+        }
+    }
+</script>
 
 <button x-data="initWishlist(<?= (int)$product->getId() ?>)"
         x-init="init()"
