@@ -22,8 +22,24 @@ $product = $registry->registry('current_product');
 $productName = $product->getName();
 $productId = (int)$product->getId();
 ?>
-<button x-data="initCompareOnProductList()"
-        @click.prevent="$store.compare.add(<?= (int)$productId ?>, addToCompare)"
+<script>
+    function initCompareOnProductView() {
+        return {
+            addToCompare(productId) {
+                fetch(BASE_URL + 'catalog/product_compare/add/', {
+                    headers: {'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+                    body: 'form_key=' + hyva.getFormKey() + '&product=' + productId + '&uenc=' + hyva.getUenc(),
+                    method: 'POST', mode: 'cors', credentials: 'include'
+                }).then(r => {
+                    if (r.redirected) { window.location.href = r.url; return; }
+                    window.dispatchEvent(new CustomEvent('reload-customer-section-data'));
+                });
+            }
+        }
+    }
+</script>
+<button x-data="initCompareOnProductView()"
+        @click.prevent="addToCompare(<?= (int)$productId ?>)"
         aria-label="<?= $escaper->escapeHtmlAttr(__('Add to Compare') . ' ' . $productName) ?>"
         type="button"
         class="btn p-2 rounded-full hover:text-red-400"
